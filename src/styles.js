@@ -8,13 +8,13 @@ export const AppContainer = styled.div`
 export const MainContainer = styled.div`
 	transform-style: preserve-3d;
 	position: absolute;
-	transform: rotateY(0.5turn) rotateX(0.1turn) rotateZ(1.05turn);
-	/* animation: r 16s linear infinite; */
-	top: 40vh;
-	left: 30vw;
+	/* transform: rotateY(0.5turn) rotateX(0.1turn) rotateZ(1.05turn); */
+	animation: r 60s linear infinite;
+	top: 50vh;
+	left: 50vw;
 	@keyframes r {
 		to {
-			transform: rotateY(1turn) rotateX(1turn);
+			transform: rotateY(1turn) rotateX(1turn) rotateZ(1turn);
 		}
 	}
 `;
