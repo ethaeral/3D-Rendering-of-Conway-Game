@@ -1,12 +1,19 @@
-import React from 'react';
+import React from "react";
+import Main from "./Main";
+import "./App.css";
 
+import {  AppContainer } from "./styles";
 
 function App() {
-  return (
-    <div className="App">
 
-    </div>
-  );
+	return (
+
+			<AppContainer>
+				<Main />
+		
+			</AppContainer>
+
+	);
 }
 
 export default App;

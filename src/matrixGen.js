@@ -35,6 +35,44 @@ function Unit(id, x, y, z) {
 	this.connectRooms = function (room, dir) {
 		this[`${dir}`] = room;
 	};
+	this.getAllNeighbors = function () {
+		let neighbors = [];
+		const dir = [
+			this.npo,
+			this.opo,
+			this.ppo,
+			this.noo,
+			this.ooo,
+			this.poo,
+			this.nno,
+			this.ono,
+			this.pno,
+			this.npp,
+			this.opo,
+			this.ppp,
+			this.nop,
+			this.oop,
+			this.pop,
+			this.nnp,
+			this.onp,
+			this.pnp,
+			this.npn,
+			this.opn,
+			this.ppn,
+			this.non,
+			this.oon,
+			this.pon,
+			this.nnn,
+			this.onn,
+			this.pnn,
+		];
+		for (let i = 0; i < dir.length; i++) {
+			neighbors.push(dir[i]);
+		}
+
+		return neighbors;
+	};
+
 	this.getAllAlive = function () {
 		let alive = [];
 		const dir = [
@@ -78,7 +116,44 @@ function Unit(id, x, y, z) {
 	};
 }
 
-function IIIDGen() {}
+function IIIDGenCxn(matrix) {
+	const diffX = [-1, 0, 1];
+	const diffY = [-1, 0, 1];
+	const diffZ = [-1, 0, 1];
+	matrix.forEach((gp, gpIdx) => {
+		matrix.forEach((p, pIdx) => {
+			matrix.forEach((c, cIdx) => {
+				for (let dx in diffX) {
+					for (let dy in diffY) {
+						for (let dz in diffZ) {
+							try {
+								const nx = diffX[dx] + cIdx;
+								const ny = diffY[dy] + pIdx;
+								const nz = diffZ[dz] + gpIdx;
+								if (
+									Math.min(ny, nx, nz) >= 0 &&
+									matrix[nz][ny][nx] &&
+									matrix[nz][ny][nx] !== matrix[gpIdx][pIdx][cIdx]
+								) {
+									const dirMap = { "-1": "n", "1": "p", "0": "o" };
+
+									matrix[gpIdx][pIdx][cIdx].connectRooms(
+										matrix[nz][ny][nx],
+										`${dirMap[diffX[dx]]}${dirMap[diffY[dy]]}${
+											dirMap[diffZ[dz]]
+										}`
+									);
+								}
+							} catch (err) {
+								continue;
+							}
+						}
+					}
+				}
+			});
+		});
+	});
+}
 
 function generateIIIMatrix(n) {
 	const grid = Array(n).fill(null);
@@ -95,20 +170,19 @@ function generateIIIMatrix(n) {
 		grid[gpIdx] = innerGrid;
 	});
 	while (roomCount < roomsAmount) {
-    if (matrixRoomCount === matrixRoomAmount) {
-      matrixIdx += 1;
+		if (matrixRoomCount === matrixRoomAmount) {
+			matrixIdx += 1;
 			matrixRoomCount = 0;
-    }
-    const xCoord = matrixRoomCount % n;
-    const yCoord = Math.floor(matrixRoomCount / n);
-    const zCoord = matrixIdx;
-    console.log(zCoord,yCoord,xCoord)
+		}
+		const xCoord = matrixRoomCount % n;
+		const yCoord = Math.floor(matrixRoomCount / n);
+		const zCoord = matrixIdx;
 		grid[zCoord][yCoord][xCoord] = new Unit(roomCount, xCoord, yCoord, zCoord);
 		matrixRoomCount += 1;
 		roomCount += 1;
 	}
+	IIIDGenCxn(grid);
 	return grid;
 }
 
-const matrix = generateIIIMatrix(3);
-console.log(matrix);
+export const matrix = generateIIIMatrix(10);
