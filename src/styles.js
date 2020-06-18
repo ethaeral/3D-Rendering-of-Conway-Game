@@ -35,6 +35,8 @@ export const Slider = styled.div`
 `;
 
 export const MainContainer = styled.div`
+	visibility: ${(props) => (props.visible ? "visible" : "hidden")};
+	z-index: ${(props) => (props.visible ? 1 : 0)};
 	transform-style: preserve-3d;
 	position: absolute;
 	animation: ${(props) =>

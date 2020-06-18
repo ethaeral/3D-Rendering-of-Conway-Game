@@ -6,54 +6,140 @@ import { AppContainer, Controls, RightClip, Buttons, Slider } from "./styles";
 import { IIIDMatrix } from "./utils/3DMatrixStructure";
 
 function App() {
-	const [onGoing, setOnGoing] = useState(false);
+	const instantiateMtrx = (x) => {
+		const mtrx = new IIIDMatrix(x);
+		mtrx.genMatrix();
+		mtrx.resetState();
+		return mtrx;
+	};
+	const initialState = {
+		1: false,
+		2: false,
+		3: false,
+		4: false,
+		5: false,
+		6: false,
+		7: false,
+		8: false,
+		9: false,
+		10: false,
+	};
 	const [counter, setCounter] = useState(0);
-	const [animation, setAnimation] = useState(false);
+	const [onGoing, setOnGoing] = useState(initialState);
+	const [animation, setAnimation] = useState(initialState);
 	const [n, setN] = useState(1);
+	const [matrices] = useState({
+		1: instantiateMtrx(1),
+		2: instantiateMtrx(2),
+		3: instantiateMtrx(3),
+		4: instantiateMtrx(4),
+		5: instantiateMtrx(5),
+		6: instantiateMtrx(6),
+		7: instantiateMtrx(7),
+		8: instantiateMtrx(8),
+		9: instantiateMtrx(9),
+		10: instantiateMtrx(10),
+	});
 
 	const implementChangeState = () => {
 		let num = counter + 1;
 		setCounter(num);
-		// change state func
+		matrices[n].applyRuleToState();
 	};
-	const instantiateMtrx = () => {
-		const mtrx = new IIIDMatrix(n);
-		mtrx.genMatrix();
-		mtrx.resetState();
-		return mtrx.matrix;
-	};
-	const [curr, setCurr] = useState(instantiateMtrx());
 
 	useEffect(() => {
 		if (onGoing === true) {
 			setTimeout(implementChangeState, 1000);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [onGoing, counter, curr]);
+	}, [onGoing, counter]);
 
 	return (
 		<AppContainer>
-			<Main animation={animation} matrix={curr} counter={counter} n={n} />
+			<Main
+				animation={animation[1]}
+				matrix={matrices[1].matrix}
+				counter={counter}
+				visible={n === 1}
+			/>
+			<Main
+				animation={animation[2]}
+				matrix={matrices[2].matrix}
+				counter={counter}
+				visible={n === 2}
+			/>
+			<Main
+				animation={animation[3]}
+				matrix={matrices[3].matrix}
+				counter={counter}
+				visible={n === 3}
+			/>
+			<Main
+				animation={animation[4]}
+				matrix={matrices[4].matrix}
+				counter={counter}
+				visible={n === 4}
+			/>
+			<Main
+				animation={animation[5]}
+				matrix={matrices[5].matrix}
+				counter={counter}
+				visible={n === 5}
+			/>
+			<Main
+				animation={animation[6]}
+				matrix={matrices[6].matrix}
+				counter={counter}
+				visible={n === 6}
+			/>
+			<Main
+				animation={animation[7]}
+				matrix={matrices[7].matrix}
+				counter={counter}
+				visible={n === 7}
+			/>
+			<Main
+				animation={animation[8]}
+				matrix={matrices[8].matrix}
+				counter={counter}
+				visible={n === 8}
+			/>
+			<Main
+				animation={animation[9]}
+				matrix={matrices[9].matrix}
+				counter={counter}
+				visible={n === 9}
+			/>
+			<Main
+				animation={animation[10]}
+				matrix={matrices[10].matrix}
+				counter={counter}
+				visible={n === 10}
+			/>
 			<Controls>
 				<RightClip>
 					<p>Generation: {counter}</p>
 					<Buttons>
 						<button
 							onClick={() => {
-								animation === true ? setAnimation(false) : setAnimation(true);
+								animation[n] === true
+									? setAnimation({ ...initialState, [n]: false })
+									: setAnimation({ ...initialState, [n]: true });
 							}}>
-							{animation === true ? "Interactive" : "Animation"}
+							{animation[n] === true ? "Interactive" : "Animation"}
 						</button>
 						<button
 							onClick={() => {
-								onGoing === true ? setOnGoing(false) : setOnGoing(true);
+								onGoing[n] === true
+									? setOnGoing({ ...initialState, [n]: false })
+									: setOnGoing({ ...initialState, [n]: true });
 							}}>
-							{onGoing === true ? "Pause" : "Start"}
+							{onGoing[n] === true ? "Pause" : "Start"}
 						</button>
 						<button
 							onClick={() => {
 								setCounter(0);
-								//randomize state
+								matrices[n].resetState();
 							}}>
 							Reset
 						</button>
@@ -70,7 +156,6 @@ function App() {
 						defaultValue='1'
 						onMouseUp={(e) => {
 							setN(parseInt(e.target.value));
-							setCurr();
 						}}
 					/>
 					<datalist id='tickmarks'>
