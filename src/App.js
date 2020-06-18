@@ -84,6 +84,7 @@ function App() {
 				matrix={matrices[1].matrix}
 				counter={counter[1]}
 				visible={n === 1}
+				first={true}
 			/>
 			<Main
 				animation={animation[2]}
