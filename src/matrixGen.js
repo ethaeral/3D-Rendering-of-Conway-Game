@@ -4,7 +4,8 @@ function Unit(id, x, y, z) {
 	this.y = y;
 	this.z = z;
 	this.isAlive = false;
-	this.color = this.npo = null;
+	this.color = null;
+	this.npo = null;
 	this.opo = null;
 	this.ppo = null;
 	this.noo = null;
@@ -34,43 +35,6 @@ function Unit(id, x, y, z) {
 
 	this.connectRooms = function (room, dir) {
 		this[`${dir}`] = room;
-	};
-	this.getAllNeighbors = function () {
-		let neighbors = [];
-		const dir = [
-			this.npo,
-			this.opo,
-			this.ppo,
-			this.noo,
-			this.ooo,
-			this.poo,
-			this.nno,
-			this.ono,
-			this.pno,
-			this.npp,
-			this.opo,
-			this.ppp,
-			this.nop,
-			this.oop,
-			this.pop,
-			this.nnp,
-			this.onp,
-			this.pnp,
-			this.npn,
-			this.opn,
-			this.ppn,
-			this.non,
-			this.oon,
-			this.pon,
-			this.nnn,
-			this.onn,
-			this.pnn,
-		];
-		for (let i = 0; i < dir.length; i++) {
-			neighbors.push(dir[i]);
-		}
-
-		return neighbors;
 	};
 
 	this.getAllAlive = function () {
@@ -201,6 +165,7 @@ function generateIIIMatrix(n) {
 			grid[zCoord][yCoord][xCoord].isAlive = true;
 		}
 		grid[zCoord][yCoord][xCoord].color = randomColorGen();
+		grid[zCoord][yCoord][xCoord].livingNeighbors[roomCount] = new Set();
 		matrixRoomCount += 1;
 		roomCount += 1;
 	}
@@ -209,3 +174,42 @@ function generateIIIMatrix(n) {
 }
 
 export const matrix = generateIIIMatrix(10);
+
+const flattenMatrix = (mtrx) => {
+	let rooms = [];
+	mtrx.forEach((gp, gpIdx) => {
+		mtrx.forEach((p, pIdx) => {
+			mtrx.forEach((c, cIdx) => {
+				rooms.push(mtrx[gpIdx][pIdx][cIdx]);
+			});
+		});
+	});
+	return rooms;
+};
+
+export const changeState = (mtrx) => {
+	const rooms = flattenMatrix(mtrx);
+	const zombie = rooms.filter(
+		(room) => room.getAllAlive() === 3 && !room.isAlive
+	);
+	const deathBed = rooms.filter(
+		(room) => room.getAllAlive() < 2 && room.isAlive
+	);
+	const overPop = rooms.filter(
+		(room) => room.getAllAlive() >= 4 && room.isAlive
+	);
+	deathBed.forEach((room) => {
+		const { z, x, y } = room;
+		matrix[z][y][x].isAlive = false;
+	});
+	overPop.forEach((room) => {
+		const { z, x, y } = room;
+		matrix[z][y][x].isAlive = false;
+	});
+	zombie.forEach((room) => {
+		const { z, x, y } = room;
+		matrix[z][y][x].isAlive = true;
+		matrix[z][y][x].color = randomColorGen();
+	});
+	return matrix;
+};

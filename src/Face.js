@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaceContainer } from "./styles";
 
 export default function Face({ info }) {
 	const { color, isAlive } = info;
+	useEffect(() => {}, [isAlive]);
 	return (
 		<FaceContainer
 			isAlive={isAlive}

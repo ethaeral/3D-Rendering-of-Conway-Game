@@ -8,8 +8,8 @@ export const AppContainer = styled.div`
 export const MainContainer = styled.div`
 	transform-style: preserve-3d;
 	position: absolute;
-	/* transform: rotateY(0.5turn) rotateX(0.1turn) rotateZ(1.05turn); */
-	animation: r 120s linear infinite;
+	transform: rotateY(0.5turn) rotateX(0.1turn) rotateZ(1.05turn);
+	/* animation: r 120s linear infinite; */
 	top: 50vh;
 	left: 50vw;
 	@keyframes r {
