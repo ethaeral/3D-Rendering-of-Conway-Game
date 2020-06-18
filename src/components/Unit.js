@@ -1,6 +1,6 @@
 import React from "react";
 
-import { UnitContainer } from "./styles";
+import { UnitContainer } from "../styles";
 import Face from "./Face";
 
 export default function Unit({ info }) {

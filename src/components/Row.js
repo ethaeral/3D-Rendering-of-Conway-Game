@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Unit from "./Unit";
-import { RowContainer } from "./styles";
+import { RowContainer } from "../styles";
 
 export default function Row(array) {
 	const [elements, setElements] = useState([]);

@@ -1,7 +1,8 @@
 import React from "react";
 
 import Row from "./Row";
-import { WindowContainer } from "./styles";
+import { WindowContainer } from "../styles";
+
 
 export default function Matrix({MDMatrix}) {
 

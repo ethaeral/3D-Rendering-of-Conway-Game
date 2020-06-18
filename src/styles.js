@@ -26,10 +26,10 @@ export const Buttons = styled.div`
 `;
 
 export const Slider = styled.div`
-	transform: rotate(270deg);
 	padding-top: 20px;
 	padding-right: 20px;
 	.slider {
+		-webkit-appearance: slider-vertical;
 		width: 120px;
 	}
 `;

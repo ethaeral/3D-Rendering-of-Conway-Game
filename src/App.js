@@ -1,35 +1,28 @@
 import React, { useEffect, useState } from "react";
-import Main from "./Main";
+import Main from "./components/Main";
 import "./App.css";
 
-import { generateIIIMatrix, changeState, randomize } from "./matrixGen";
-
 import { AppContainer, Controls, RightClip, Buttons, Slider } from "./styles";
+import { IIIDMatrix } from "./utils/3DMatrixStructure";
 
 function App() {
-	const cache = {
-		1: generateIIIMatrix(1),
-		2: generateIIIMatrix(2),
-		3: generateIIIMatrix(3),
-		4: generateIIIMatrix(4),
-		5: generateIIIMatrix(5),
-		6: generateIIIMatrix(6),
-		7: generateIIIMatrix(7),
-		8: generateIIIMatrix(8),
-		9: generateIIIMatrix(9),
-		10: generateIIIMatrix(10),
-	};
 	const [onGoing, setOnGoing] = useState(false);
 	const [counter, setCounter] = useState(0);
 	const [animation, setAnimation] = useState(false);
 	const [n, setN] = useState(1);
-	const [curr, setCurr] = useState(cache[1]);
 
 	const implementChangeState = () => {
 		let num = counter + 1;
 		setCounter(num);
-		changeState(curr);
+		// change state func
 	};
+	const instantiateMtrx = () => {
+		const mtrx = new IIIDMatrix(n);
+		mtrx.genMatrix();
+		mtrx.resetState();
+		return mtrx.matrix;
+	};
+	const [curr, setCurr] = useState(instantiateMtrx());
 
 	useEffect(() => {
 		if (onGoing === true) {
@@ -59,7 +52,8 @@ function App() {
 						</button>
 						<button
 							onClick={() => {
-								randomize(curr, n);
+								setCounter(0);
+								//randomize state
 							}}>
 							Reset
 						</button>
@@ -76,7 +70,7 @@ function App() {
 						defaultValue='1'
 						onMouseUp={(e) => {
 							setN(parseInt(e.target.value));
-							setCurr(cache[n]);
+							setCurr();
 						}}
 					/>
 					<datalist id='tickmarks'>
