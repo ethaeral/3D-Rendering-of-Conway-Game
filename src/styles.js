@@ -9,7 +9,7 @@ export const MainContainer = styled.div`
 	transform-style: preserve-3d;
 	position: absolute;
 	/* transform: rotateY(0.5turn) rotateX(0.1turn) rotateZ(1.05turn); */
-	animation: r 60s linear infinite;
+	animation: r 120s linear infinite;
 	top: 50vh;
 	left: 50vw;
 	@keyframes r {
@@ -124,33 +124,29 @@ export const UnitContainer = styled.div`
 `;
 
 export const FaceContainer = styled.div`
-
 	position: absolute;
-	margin: -1.25em;
 	width: 2.5em;
 	height: 2.5em;
-	box-shadow: inset 0 0 0.39px;
-	background: radial-gradient(
-		circle,
-		rgba(131, 250, 91, 0.1) 0%,
-		rgba(131, 250, 91, 0.1) 100%
-	);
+	background: ${(props) =>
+		props.isAlive ? `rgba(${props.color}, 0.3) ` : `rgba(255, 255, 255, 0) `};
 	&:nth-child(1) {
-		transform: rotateY(0deg) translateZ(1em);
+		transform: rotateY(0deg) translateZ(1.25em);
 	}
 	&:nth-child(2) {
-		transform: rotateY(90deg) translateZ(1em);
+		transform: rotateY(90deg) translateZ(1.25em);
 	}
 	&:nth-child(3) {
-		transform: rotateY(180deg) translateZ(1em);
+		transform: rotateY(180deg) translateZ(1.25em);
 	}
 	&:nth-child(4) {
-		transform: rotateY(270deg) translateZ(1em);
+		transform: rotateY(270deg) translateZ(1.25em);
 	}
 	&:nth-child(5) {
-		transform: rotateX(pow(-1, 4) * 90deg) translateZ(1em);
+		transform: ${(props) =>
+			`rotateX(${props.fifthCalc}deg) translateZ(1.25em)`};
 	}
 	&:nth-child(6) {
-		transform: rotateX(pow(-1, 5) * 90deg) translateZ(1em);
+		transform: ${(props) =>
+			`rotateX(${props.sixthCalc}deg) translateZ(1.25em)`};
 	}
 `;

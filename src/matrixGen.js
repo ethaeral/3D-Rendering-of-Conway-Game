@@ -4,7 +4,7 @@ function Unit(id, x, y, z) {
 	this.y = y;
 	this.z = z;
 	this.isAlive = false;
-	this.npo = null;
+	this.color = this.npo = null;
 	this.opo = null;
 	this.ppo = null;
 	this.noo = null;
@@ -155,6 +155,23 @@ function IIIDGenCxn(matrix) {
 	});
 }
 
+function randomNumber(range) {
+	return Math.floor(Math.random() * range);
+}
+
+function randomColorGen() {
+	let color = [];
+	for (let i = 0; i < 3; i++) {
+		const num = randomNumber(225);
+		if (i === 3) {
+			color.push(num);
+		} else {
+			color.push(num);
+		}
+	}
+	return `${color[0]}, ${color[1]}, ${color[2]}`;
+}
+
 function generateIIIMatrix(n) {
 	const grid = Array(n).fill(null);
 	const roomsAmount = n ** 3;
@@ -178,6 +195,12 @@ function generateIIIMatrix(n) {
 		const yCoord = Math.floor(matrixRoomCount / n);
 		const zCoord = matrixIdx;
 		grid[zCoord][yCoord][xCoord] = new Unit(roomCount, xCoord, yCoord, zCoord);
+		const threshold = 25;
+		const randomNum = randomNumber(100);
+		if (randomNum < threshold) {
+			grid[zCoord][yCoord][xCoord].isAlive = true;
+		}
+		grid[zCoord][yCoord][xCoord].color = randomColorGen();
 		matrixRoomCount += 1;
 		roomCount += 1;
 	}

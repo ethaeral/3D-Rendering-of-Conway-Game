@@ -1,7 +1,13 @@
 import React from "react";
 import { FaceContainer } from "./styles";
 
-export default function Face() {
-
-return <FaceContainer></FaceContainer>;
+export default function Face({ info }) {
+	const { color, isAlive } = info;
+	return (
+		<FaceContainer
+			isAlive={isAlive}
+			color={color}
+			fifthCalc={Math.pow(-1, 4) * 90}
+			sixthCalc={Math.pow(-1, 5) * 90}></FaceContainer>
+	);
 }

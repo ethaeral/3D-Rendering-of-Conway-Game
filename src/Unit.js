@@ -1,22 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { UnitContainer } from "./styles";
 import Face from "./Face";
 
 export default function Unit({ info }) {
-	const { isAlive } = info;
-	const [invert, setInvert] = useState(false);
-	const faceNum = [0, 0, 0, 0];
-	useEffect(() => {}, [isAlive, invert]);
+	const faceNum = [0, 0, 0, 0, 0, 0];
 	return (
-		<UnitContainer
-			isAlive={isAlive}
-			onClick={() => {
-				info.isAlive = !info.isAlive;
-				setInvert(!invert);
-			}}>
+		<UnitContainer>
 			{faceNum.map(() => (
-				<Face />
+				<Face info={info} />
 			))}
 		</UnitContainer>
 	);

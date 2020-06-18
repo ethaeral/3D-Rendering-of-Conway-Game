@@ -5,12 +5,9 @@ import "./App.css";
 import {  AppContainer } from "./styles";
 
 function App() {
-
 	return (
-
 			<AppContainer>
 				<Main />
-		
 			</AppContainer>
 
 	);
