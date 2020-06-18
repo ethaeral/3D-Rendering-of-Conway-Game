@@ -48,7 +48,7 @@ function App() {
 	};
 
 	useEffect(() => {
-		if (onGoing === true) {
+		if (onGoing[n] === true) {
 			setTimeout(implementChangeState, 1000);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
