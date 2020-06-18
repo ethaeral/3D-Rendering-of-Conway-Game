@@ -12,6 +12,18 @@ function App() {
 		mtrx.resetState();
 		return mtrx;
 	};
+	const counterInitial = {
+		1: 0,
+		2: 0,
+		3: 0,
+		4: 0,
+		5: 0,
+		6: 0,
+		7: 0,
+		8: 0,
+		9: 0,
+		10: 0,
+	};
 	const initialState = {
 		1: false,
 		2: false,
@@ -24,7 +36,18 @@ function App() {
 		9: false,
 		10: false,
 	};
-	const [counter, setCounter] = useState(0);
+	const [counter, setCounter] = useState({
+		1: 0,
+		2: 0,
+		3: 0,
+		4: 0,
+		5: 0,
+		6: 0,
+		7: 0,
+		8: 0,
+		9: 0,
+		10: 0,
+	});
 	const [onGoing, setOnGoing] = useState(initialState);
 	const [animation, setAnimation] = useState(initialState);
 	const [n, setN] = useState(1);
@@ -43,7 +66,7 @@ function App() {
 
 	const implementChangeState = () => {
 		let num = counter + 1;
-		setCounter(num);
+		setCounter({ ...counterInitial, [n]: num });
 		matrices[n].applyRuleToState();
 	};
 
@@ -59,66 +82,66 @@ function App() {
 			<Main
 				animation={animation[1]}
 				matrix={matrices[1].matrix}
-				counter={counter}
+				counter={counter[1]}
 				visible={n === 1}
 			/>
 			<Main
 				animation={animation[2]}
 				matrix={matrices[2].matrix}
-				counter={counter}
+				counter={counter[2]}
 				visible={n === 2}
 			/>
 			<Main
 				animation={animation[3]}
 				matrix={matrices[3].matrix}
-				counter={counter}
+				counter={counter[3]}
 				visible={n === 3}
 			/>
 			<Main
 				animation={animation[4]}
 				matrix={matrices[4].matrix}
-				counter={counter}
+				counter={counter[4]}
 				visible={n === 4}
 			/>
 			<Main
 				animation={animation[5]}
 				matrix={matrices[5].matrix}
-				counter={counter}
+				counter={counter[5]}
 				visible={n === 5}
 			/>
 			<Main
 				animation={animation[6]}
 				matrix={matrices[6].matrix}
-				counter={counter}
+				counter={counter[6]}
 				visible={n === 6}
 			/>
 			<Main
 				animation={animation[7]}
 				matrix={matrices[7].matrix}
-				counter={counter}
+				counter={counter[7]}
 				visible={n === 7}
 			/>
 			<Main
 				animation={animation[8]}
 				matrix={matrices[8].matrix}
-				counter={counter}
+				counter={counter[8]}
 				visible={n === 8}
 			/>
 			<Main
 				animation={animation[9]}
 				matrix={matrices[9].matrix}
-				counter={counter}
+				counter={counter[9]}
 				visible={n === 9}
 			/>
 			<Main
 				animation={animation[10]}
 				matrix={matrices[10].matrix}
-				counter={counter}
+				counter={counter[10]}
 				visible={n === 10}
 			/>
 			<Controls>
 				<RightClip>
-					<p>Generation: {counter}</p>
+					<p>Generation: {counter[n]}</p>
 					<Buttons>
 						<button
 							onClick={() => {
