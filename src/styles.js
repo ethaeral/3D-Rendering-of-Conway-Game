@@ -159,7 +159,6 @@ export const FaceContainer = styled.div`
 	width: 2.5em;
 	height: 2.5em;
 	box-shadow: ${(props) => (props.isAlive ? "inset 0 0 1px" : "none")};
-	box-shadow: inset 0 0 1px;
 	background: ${(props) =>
 		props.isAlive ? `rgba(${props.color}, 0.3) ` : `rgba(255, 255, 255, 0) `};
 	&:nth-child(1) {
