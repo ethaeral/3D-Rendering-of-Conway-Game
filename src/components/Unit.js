@@ -3,12 +3,12 @@ import React from "react";
 import { UnitContainer } from "../styles";
 import Face from "./Face";
 
-export default function Unit({ info }) {
+export default function Unit({ info, first }) {
 	const faceNum = [0, 0, 0, 0, 0, 0];
 	return (
 		<UnitContainer>
 			{faceNum.map((face,idx) => (
-				<Face key={`${idx << 6}`} info={info} />
+				<Face key={`${idx << 6}`} info={info} first={first}/>
 			))}
 		</UnitContainer>
 	);

@@ -4,12 +4,12 @@ import Row from "./Row";
 import { WindowContainer } from "../styles";
 
 
-export default function Matrix({MDMatrix}) {
+export default function Matrix({MDMatrix,first}) {
 
 	return (
 		<WindowContainer  >
 			{MDMatrix.map((array, idx) => {
-				return <Row  key={`${idx << 3}`} array={array} />;
+				return <Row  key={`${idx << 3}`} array={array} first={first} />;
 			})}
 		</WindowContainer>
 	);
