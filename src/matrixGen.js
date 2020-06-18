@@ -165,7 +165,6 @@ function generateIIIMatrix(n) {
 			grid[zCoord][yCoord][xCoord].isAlive = true;
 		}
 		grid[zCoord][yCoord][xCoord].color = randomColorGen();
-		grid[zCoord][yCoord][xCoord].livingNeighbors[roomCount] = new Set();
 		matrixRoomCount += 1;
 		roomCount += 1;
 	}
