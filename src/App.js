@@ -23,7 +23,7 @@ function App() {
 	const [counter, setCounter] = useState(0);
 	const [animation, setAnimation] = useState(false);
 	const [n, setN] = useState(1);
-	const [curr, setCurr] = useState(cache[n]);
+	const [curr, setCurr] = useState(cache[1]);
 
 	const implementChangeState = () => {
 		let num = counter + 1;
@@ -36,11 +36,11 @@ function App() {
 			setTimeout(implementChangeState, 1000);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [onGoing, counter]);
+	}, [onGoing, counter, curr]);
 
 	return (
 		<AppContainer>
-			<Main animation={animation} matrix={curr} />
+			<Main animation={animation} matrix={curr} counter={counter} n={n} />
 			<Controls>
 				<RightClip>
 					<p>Generation: {counter}</p>
