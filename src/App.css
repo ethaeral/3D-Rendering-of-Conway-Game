@@ -4,12 +4,8 @@ body {
 	height: 100vh;
 	perspective: 20em;
 	font-size: 5vmin;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+
 
 }
 
-button{
-	z-index: 50;
-}
+

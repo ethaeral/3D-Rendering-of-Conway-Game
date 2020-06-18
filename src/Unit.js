@@ -7,8 +7,8 @@ export default function Unit({ info }) {
 	const faceNum = [0, 0, 0, 0, 0, 0];
 	return (
 		<UnitContainer>
-			{faceNum.map(() => (
-				<Face info={info} />
+			{faceNum.map((face,idx) => (
+				<Face key={`${idx << 6}`} info={info} />
 			))}
 		</UnitContainer>
 	);

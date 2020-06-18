@@ -5,11 +5,40 @@ export const AppContainer = styled.div`
 	display: flex;
 `;
 
+export const Controls = styled.div`
+	margin-top: 40px;
+	margin-left: 60px;
+	z-index: 50;
+	display: flex;
+`;
+
+export const RightClip = styled.div`
+	p {
+		font-size: 0.5em;
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+			Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+	}
+`;
+
+export const Buttons = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+
+export const Slider = styled.div`
+	transform: rotate(270deg);
+	padding-top: 20px;
+	padding-right: 20px;
+	.slider {
+		width: 120px;
+	}
+`;
+
 export const MainContainer = styled.div`
 	transform-style: preserve-3d;
 	position: absolute;
-	/* transform: rotateY(0.5turn) rotateX(0.1turn) rotateZ(1.05turn); */
-	animation: r 120s linear infinite;
+	animation: ${(props) =>
+		props.animation ? "r 120s linear infinite" : "none"};
 	top: 50vh;
 	left: 50vw;
 	@keyframes r {
@@ -127,6 +156,8 @@ export const FaceContainer = styled.div`
 	position: absolute;
 	width: 2.5em;
 	height: 2.5em;
+	box-shadow: ${(props) => (props.isAlive ? "inset 0 0 1px" : "none")};
+	box-shadow: inset 0 0 1px;
 	background: ${(props) =>
 		props.isAlive ? `rgba(${props.color}, 0.3) ` : `rgba(255, 255, 255, 0) `};
 	&:nth-child(1) {

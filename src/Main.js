@@ -1,10 +1,11 @@
-import React from "react";
-import { matrix } from "./matrixGen";
+import React, { useEffect } from "react";
+
 import Matrix from "./Matrix";
 import { MainContainer } from "./styles";
-export default function Main() {
+export default function Main({ animation, matrix }) {
+	useEffect(() => {}, [matrix]);
 	return (
-		<MainContainer	>
+		<MainContainer animation={animation}>
 			{matrix.map((MDMatrix, idx) => {
 				return <Matrix key={`${idx << 3}`} MDMatrix={MDMatrix} />;
 			})}

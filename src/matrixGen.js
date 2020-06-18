@@ -136,7 +136,8 @@ function randomColorGen() {
 	return `${color[0]}, ${color[1]}, ${color[2]}`;
 }
 
-function generateIIIMatrix(n) {
+export function generateIIIMatrix(n) {
+	console.log(n);
 	const grid = Array(n).fill(null);
 	const roomsAmount = n ** 3;
 	const matrixRoomAmount = n ** 2;
@@ -172,7 +173,32 @@ function generateIIIMatrix(n) {
 	return grid;
 }
 
-export const matrix = generateIIIMatrix(10);
+export const randomize = (matrix, n) => {
+	const roomsAmount = n ** 3;
+	const matrixRoomAmount = n ** 2;
+	let roomCount = 0;
+	let matrixIdx = 0;
+	let matrixRoomCount = 0;
+	while (roomCount < roomsAmount) {
+		if (matrixRoomCount === matrixRoomAmount) {
+			matrixIdx += 1;
+			matrixRoomCount = 0;
+		}
+		const xCoord = matrixRoomCount % n;
+		const yCoord = Math.floor(matrixRoomCount / n);
+		const zCoord = matrixIdx;
+		const threshold = 25;
+		const randomNum = randomNumber(100);
+		if (randomNum < threshold) {
+			matrix[zCoord][yCoord][xCoord].isAlive = true;
+		}
+		matrix[zCoord][yCoord][xCoord].color = randomColorGen();
+		matrixRoomCount += 1;
+		roomCount += 1;
+	}
+};
+
+export const matrix = generateIIIMatrix(1);
 
 const flattenMatrix = (mtrx) => {
 	let rooms = [];
