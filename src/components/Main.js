@@ -3,12 +3,12 @@ import React, { useEffect } from "react";
 import Matrix from "./Matrix";
 import { MainContainer } from "../styles";
 
-export default function Main({ animation, matrix, counter, visible, first }) {
-	useEffect(() => {}, [counter, visible]);
+export default function Main({ animation, matrix, counter }) {
+	useEffect(() => {}, [counter]);
 	return (
-		<MainContainer animation={animation} visible={visible} >
+		<MainContainer animation={animation}>
 			{matrix.map((MDMatrix, idx) => {
-				return <Matrix key={`${idx << 3}`} MDMatrix={MDMatrix} first={first} />;
+				return <Matrix key={`${idx << 3}`} MDMatrix={MDMatrix} />;
 			})}
 		</MainContainer>
 	);

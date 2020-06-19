@@ -82,14 +82,14 @@ export function IIIDMatrix(n) {
 			const gpIdx = parseInt(node.charAt(0));
 			const pIdx = parseInt(node.charAt(1));
 			const cIdx = parseInt(node.charAt(2));
-			this.storage[gpIdx][pIdx][cIdx].isAlive = true;
+			this.matrix[gpIdx][pIdx][cIdx].isAlive = true;
 			setAliveNeighborCount(node, this.nodes, true);
 		}
 		for (let node of expire) {
 			const gpIdx = parseInt(node.charAt(0));
 			const pIdx = parseInt(node.charAt(1));
 			const cIdx = parseInt(node.charAt(2));
-			this.storage[gpIdx][pIdx][cIdx].isAlive = false;
+			this.matrix[gpIdx][pIdx][cIdx].isAlive = false;
 			setAliveNeighborCount(node, this.nodes, false);
 		}
 	};
