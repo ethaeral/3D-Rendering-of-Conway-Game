@@ -7,10 +7,10 @@ import { IIIDMatrix } from "./utils/3DMatrixStructure";
 
 function App() {
 	const instantiateMtrx = (x) => {
-		const mtrx = new IIIDMatrix(x);
-		mtrx.genMatrix();
-		mtrx.resetState();
-		return mtrx;
+		const m = new IIIDMatrix(x);
+		m.genMatrix();
+		m.matrixGenCxn();
+		return m;
 	};
 	const [counter, setCounter] = useState(0);
 	const [onGoing, setOnGoing] = useState(false);
@@ -34,6 +34,7 @@ function App() {
 		let num = counter + 1;
 		setCounter(num);
 		matrices[n].applyRuleToState();
+		setCurr(matrices[n].matrix);
 	};
 
 	useEffect(() => {
@@ -41,12 +42,11 @@ function App() {
 			setTimeout(implementChangeState, 1000);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [onGoing, counter]);
+	}, [onGoing, counter, curr]);
 
 	return (
 		<AppContainer>
-			<Main animation={animation} matrix={curr} counter={counter} />
-
+			<Main animation={animation} matrix={curr} counter={counter} onGoing={onGoing} />
 			<Controls>
 				<RightClip>
 					<p>Generation: {`${counter}`}</p>
@@ -68,7 +68,8 @@ function App() {
 						<button
 							onClick={() => {
 								setCounter(0);
-								matrices[n].resetState();
+								matrices[n].randomizeState();
+								setCurr(matrices[n].matrix);
 							}}>
 							Reset
 						</button>
