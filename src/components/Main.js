@@ -2,14 +2,16 @@ import React, { useEffect } from "react";
 
 import Matrix from "./Matrix";
 import { MainContainer } from "../styles";
+import { customUUID } from "../utils/Helpers";
 
-export default function Main({ animation, matrix, counter, onGoing }) {
+function Main({ animation, matrix, counter, onGoing }) {
 	useEffect(() => {}, [counter, matrix, onGoing, animation]);
 	return (
 		<MainContainer animation={animation}>
 			{matrix.map((MDMatrix, idx) => {
-				return <Matrix key={`${idx << 3}`} MDMatrix={MDMatrix} />;
+				return <Matrix key={`${customUUID()}`} MDMatrix={MDMatrix} />;
 			})}
 		</MainContainer>
 	);
 }
+export default React.memo(Main);

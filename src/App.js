@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Main from "./components/Main";
 import "./App.css";
 
@@ -30,23 +30,28 @@ function App() {
 	});
 	const [curr, setCurr] = useState(matrices[1].matrix);
 
-	const implementChangeState = () => {
+	const implementChangeState = useCallback(() => {
 		let num = counter + 1;
 		setCounter(num);
 		matrices[n].applyRuleToState();
 		setCurr(matrices[n].matrix);
-	};
+	}, [counter, matrices, n]);
 
 	useEffect(() => {
 		if (onGoing === true) {
 			setTimeout(implementChangeState, 1000);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [onGoing, counter, curr]);
+	}, [onGoing, counter, curr, implementChangeState]);
 
 	return (
 		<AppContainer>
-			<Main animation={animation} matrix={curr} counter={counter} onGoing={onGoing} />
+			<Main
+				animation={animation}
+				matrix={curr}
+				counter={counter}
+				onGoing={onGoing}
+			/>
 			<Controls>
 				<RightClip>
 					<p>Generation: {`${counter}`}</p>

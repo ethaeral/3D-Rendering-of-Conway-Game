@@ -2,14 +2,16 @@ import React from "react";
 
 import { UnitContainer } from "../styles";
 import Face from "./Face";
+import { customUUID } from "../utils/Helpers";
 
-export default function Unit({ info,  }) {
+function Unit({ info }) {
 	const faceNum = [0, 0, 0, 0, 0, 0];
 	return (
 		<UnitContainer>
-			{faceNum.map((face,idx) => (
-				<Face key={`${idx << 6}`} info={info} />
+			{faceNum.map((face, idx) => (
+				<Face key={`${customUUID()}`} info={info} />
 			))}
 		</UnitContainer>
 	);
 }
+export default React.memo(Unit);

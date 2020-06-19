@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { FaceContainer } from "../styles";
 
-export default function Face({ info }) {
+function Face({ info }) {
 	const { color, isAlive } = info;
 	useEffect(() => {}, [isAlive]);
 	return (
@@ -12,3 +12,4 @@ export default function Face({ info }) {
 			sixthCalc={Math.pow(-1, 5) * 90}></FaceContainer>
 	);
 }
+export default React.memo(Face);

@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Unit from "./Unit";
 import { RowContainer } from "../styles";
+import { customUUID } from "../utils/Helpers";
 
-export default function Row({ array }) {
-	const [elements, setElements] = useState([]);
-	useEffect(() => {
-		setElements(array);
-	}, [array]);
+function Row({ array }) {
 	return (
 		<RowContainer>
-			{elements.map((unit, idx) => (
-				<Unit key={`${idx << 4}`} info={unit} />
+			{array.map((unit, idx) => (
+				<Unit key={`${customUUID()}`} info={unit} />
 			))}
 		</RowContainer>
 	);
 }
+export default React.memo(Row);
