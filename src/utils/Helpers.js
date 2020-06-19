@@ -75,6 +75,7 @@ export function setAliveNeighborCount(node, nodeMap, inc) {
 	for (let neighbor in nodeMap[node].neighbors) {
 		if (inc === true) {
 			nodeMap[neighbor].livingNeighbors += 1;
+			
 		} else {
 			nodeMap[neighbor].livingNeighbors -= 1;
 		}

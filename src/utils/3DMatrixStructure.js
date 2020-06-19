@@ -1,15 +1,11 @@
-const {
-	matrixWalker,
-	createNodes,
-	randomizeState,
-	setAliveNeighborCount,
-} = require("./Helpers");
+import { Unit } from "./UnitStructure";
+
+const { randomNumber, randomRGBColorGen } = require("./Helpers");
 
 export function IIIDMatrix(n) {
 	this.matrix = [];
 	this.n = n;
 	this.nodes = {};
-
 	this.genMatrix = function () {
 		const matrix = Array(this.n).fill(null);
 		matrix.forEach((grandparent, gpIdx) => {
@@ -19,9 +15,8 @@ export function IIIDMatrix(n) {
 			});
 			matrix[gpIdx] = innerMatrix;
 		});
-		matrixWalker(matrix, this.n, createNodes, this.nodes);
 		this.matrix = matrix;
-		this.matrixGenCxn();
+		this.createNodes();
 	};
 
 	this.matrixGenCxn = function () {
@@ -36,9 +31,9 @@ export function IIIDMatrix(n) {
 				for (let dy in diffY) {
 					for (let dz in diffZ) {
 						try {
-							const nx = diffX[dx] + cIdx;
-							const ny = diffY[dy] + pIdx;
-							const nz = diffZ[dz] + gpIdx;
+							const nx = parseInt(diffX[dx]) + parseInt(cIdx);
+							const ny = parseInt(diffY[dy]) + parseInt(pIdx);
+							const nz = parseInt(diffZ[dz]) + parseInt(gpIdx);
 							if (
 								Math.min(ny, nx, nz) >= 0 &&
 								this.matrix[nz][ny][nx] &&
@@ -49,7 +44,7 @@ export function IIIDMatrix(n) {
 									this.matrix[nz][ny][nx],
 									`${dirMap[diffX[dx]]}${dirMap[diffY[dy]]}${dirMap[diffZ[dz]]}`
 								);
-								this.nodes[node].neighbors.add(`${nz}${ny}${nx}`);
+								this.nodes[node].neighbors.push(`${nz}${ny}${nx}`);
 								if (this.matrix[nz][ny][nx].isAlive === true) {
 									this.nodes[node].livingNeighbors += 1;
 								}
@@ -61,10 +56,6 @@ export function IIIDMatrix(n) {
 				}
 			}
 		}
-	};
-
-	this.resetState = function () {
-		matrixWalker(this.matrix, n, randomizeState, this.nodes);
 	};
 
 	this.applyRuleToState = function () {
@@ -83,14 +74,94 @@ export function IIIDMatrix(n) {
 			const pIdx = parseInt(node.charAt(1));
 			const cIdx = parseInt(node.charAt(2));
 			this.matrix[gpIdx][pIdx][cIdx].isAlive = true;
-			setAliveNeighborCount(node, this.nodes, true);
+			this.setAliveNeighborCount(node, true);
 		}
 		for (let node of expire) {
 			const gpIdx = parseInt(node.charAt(0));
 			const pIdx = parseInt(node.charAt(1));
 			const cIdx = parseInt(node.charAt(2));
 			this.matrix[gpIdx][pIdx][cIdx].isAlive = false;
-			setAliveNeighborCount(node, this.nodes, false);
+			this.setAliveNeighborCount(node, false);
+		}
+	};
+
+	this.createNodes = function () {
+		const roomsAmount = this.n ** 3;
+		const matrixRoomAmount = this.n ** 2;
+		let roomCount = 0;
+		let matrixIdx = 0;
+		let matrixRoomCount = 0;
+		while (roomCount < roomsAmount) {
+			if (matrixRoomCount === matrixRoomAmount) {
+				matrixIdx += 1;
+				matrixRoomCount = 0;
+			}
+			const xCoord = matrixRoomCount % this.n;
+			const yCoord = Math.floor(matrixRoomCount / this.n);
+			const zCoord = matrixIdx;
+			this.matrix[zCoord][yCoord][xCoord] = new Unit(
+				roomCount,
+				xCoord,
+				yCoord,
+				zCoord
+			);
+			this.nodes[`${zCoord}${yCoord}${xCoord}`] = {
+				livingNeighbors: 0,
+				neighbors: [],
+			};
+			const threshold = 25;
+			const randomNum = randomNumber(100);
+			if (randomNum < threshold) {
+				this.matrix[zCoord][yCoord][xCoord].isAlive = true;
+			}
+			this.matrix[zCoord][yCoord][xCoord].color = randomRGBColorGen();
+			matrixRoomCount += 1;
+			roomCount += 1;
+		}
+	};
+
+	this.randomizeState = function () {
+		this.clearLivingState();
+		const roomsAmount = this.n ** 3;
+		const matrixRoomAmount = this.n ** 2;
+		let roomCount = 0;
+		let matrixIdx = 0;
+		let matrixRoomCount = 0;
+		while (roomCount < roomsAmount) {
+			if (matrixRoomCount === matrixRoomAmount) {
+				matrixIdx += 1;
+				matrixRoomCount = 0;
+			}
+			const xCoord = matrixRoomCount % this.n;
+			const yCoord = Math.floor(matrixRoomCount / this.n);
+			const zCoord = matrixIdx;
+			const threshold = 25;
+			const randomNum = randomNumber(100);
+			if (randomNum < threshold) {
+				this.matrix[zCoord][yCoord][xCoord].isAlive = true;
+				this.setAliveNeighborCount(`${zCoord}${yCoord}${xCoord}`, true);
+			}
+			this.matrix[zCoord][yCoord][xCoord].color = randomRGBColorGen();
+			matrixRoomCount += 1;
+			roomCount += 1;
+		}
+	};
+
+	this.clearLivingState = function () {
+		for (let node of Object.keys(this.nodes)) {
+			this.nodes[node].livingNeighbors = 0;
+		}
+	};
+
+	this.setAliveNeighborCount = function (node, inc) {
+		for (let neighbor of this.nodes[node].neighbors) {
+			if (inc === true) {
+				this.nodes[neighbor].livingNeighbors =
+					this.nodes[neighbor].livingNeighbors + 1;
+			} else if (this.nodes[neighbor].livingNeighbors > 0) {
+				this.nodes[neighbor].livingNeighbors =
+					this.nodes[neighbor].livingNeighbors - 1;
+			}
 		}
 	};
 }

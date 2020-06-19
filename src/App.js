@@ -28,6 +28,7 @@ function App() {
 		9: instantiateMtrx(9),
 		10: instantiateMtrx(10),
 	});
+	const [curr, setCurr] = useState(matrices[1].matrix);
 
 	const implementChangeState = () => {
 		let num = counter + 1;
@@ -44,11 +45,7 @@ function App() {
 
 	return (
 		<AppContainer>
-			<Main
-				animation={animation}
-				matrix={matrices[n].matrix}
-				counter={counter}
-			/>
+			<Main animation={animation} matrix={curr} counter={counter} />
 
 			<Controls>
 				<RightClip>
@@ -88,6 +85,7 @@ function App() {
 						defaultValue='1'
 						onMouseUp={(e) => {
 							setN(parseInt(e.target.value));
+							setCurr(matrices[n].matrix);
 							setCounter(0);
 						}}
 					/>
