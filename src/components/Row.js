@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Unit from "./Unit";
 import { RowContainer } from "../styles";
 import { customUUID } from "../utils/Helpers";
 
-function Row({ array }) {
+function Row({ array, animation, matrix, counter, onGoing, n }) {
+	useEffect(() => {}, [counter, matrix, onGoing, animation, n]);
 	return (
 		<RowContainer>
-			{array.map((unit, idx) => (
-				<Unit key={`${customUUID()}`} info={unit} />
+			{array.map((unit) => (
+				<Unit
+					key={`${customUUID()}`}
+					info={unit}
+					animation={animation}
+					matrix={matrix}
+					counter={counter}
+				
+				/>
 			))}
 		</RowContainer>
 	);

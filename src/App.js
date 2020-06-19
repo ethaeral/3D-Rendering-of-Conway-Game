@@ -34,7 +34,6 @@ function App() {
 		let num = counter + 1;
 		setCounter(num);
 		matrices[n].applyRuleToState();
-		setCurr(matrices[n].matrix);
 	}, [counter, matrices, n]);
 
 	useEffect(() => {
@@ -42,16 +41,11 @@ function App() {
 			setTimeout(implementChangeState, 1000);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [onGoing, counter, curr, implementChangeState]);
+	}, [onGoing, counter, implementChangeState]);
 
 	return (
 		<AppContainer>
-			<Main
-				animation={animation}
-				matrix={curr}
-				counter={counter}
-				onGoing={onGoing}
-			/>
+			<Main animation={animation} matrix={curr} counter={counter} />
 			<Controls>
 				<RightClip>
 					<p>Generation: {`${counter}`}</p>
@@ -74,7 +68,6 @@ function App() {
 							onClick={() => {
 								setCounter(0);
 								matrices[n].randomizeState();
-								setCurr(matrices[n].matrix);
 							}}>
 							Reset
 						</button>
@@ -90,8 +83,9 @@ function App() {
 						list='tickmarks'
 						defaultValue='1'
 						onMouseUp={(e) => {
-							setN(parseInt(e.target.value));
-							setCurr(matrices[n].matrix);
+							const newN = parseInt(e.target.value);
+							setN(newN);
+							setCurr(matrices[newN].matrix);
 							setCounter(0);
 						}}
 					/>

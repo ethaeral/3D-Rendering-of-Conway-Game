@@ -4,12 +4,21 @@ import Matrix from "./Matrix";
 import { MainContainer } from "../styles";
 import { customUUID } from "../utils/Helpers";
 
-function Main({ animation, matrix, counter, onGoing }) {
-	useEffect(() => {}, [counter, matrix, onGoing, animation]);
+function Main({ animation, matrix, counter }) {
+	useEffect(() => {}, [counter, matrix, animation]);
 	return (
 		<MainContainer animation={animation}>
-			{matrix.map((MDMatrix, idx) => {
-				return <Matrix key={`${customUUID()}`} MDMatrix={MDMatrix} />;
+			{matrix.map((MDMatrix) => {
+				return (
+					<Matrix
+						key={`${customUUID()}`}
+						MDMatrix={MDMatrix}
+						animation={animation}
+						matrix={matrix}
+						counter={counter}
+
+					/>
+				);
 			})}
 		</MainContainer>
 	);
