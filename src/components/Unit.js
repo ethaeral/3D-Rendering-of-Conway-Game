@@ -1,23 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { UnitContainer } from "../styles";
 import Face from "./Face";
 import { customUUID } from "../utils/Helpers";
 
-function Unit({ info, animation, matrix, counter, onGoing, n }) {
-	useEffect(() => {}, [counter, matrix, onGoing, animation, n]);
+function Unit({ info }) {
 	const faceNum = [0, 0, 0, 0, 0, 0];
 	return (
 		<UnitContainer>
 			{faceNum.map((face) => (
-				<Face
-					key={`${customUUID()}`}
-					info={info}
-					animation={animation}
-					matrix={matrix}
-					counter={counter}
-		
-				/>
+				<Face key={`${customUUID()}`} info={info} />
 			))}
 		</UnitContainer>
 	);

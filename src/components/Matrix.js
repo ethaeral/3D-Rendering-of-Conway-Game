@@ -1,23 +1,13 @@
-import React, { useEffect } from "react";
+import React  from "react";
 import { customUUID } from "../utils/Helpers";
 import Row from "./Row";
 import { WindowContainer } from "../styles";
 
-function Matrix({ MDMatrix, animation, matrix, counter, onGoing, n }) {
-	useEffect(() => {}, [counter, matrix, onGoing, animation, n]);
+function Matrix({ MDMatrix }) {
 	return (
 		<WindowContainer>
 			{MDMatrix.map((array) => {
-				return (
-					<Row
-						key={`${customUUID()}`}
-						array={array}
-						animation={animation}
-						matrix={matrix}
-						counter={counter}
-				
-					/>
-				);
+				return <Row key={`${customUUID()}`} array={array} />;
 			})}
 		</WindowContainer>
 	);

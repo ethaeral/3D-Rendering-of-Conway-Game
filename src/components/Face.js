@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { FaceContainer } from "../styles";
 
-function Face({ info, animation, matrix, counter, onGoing, n }) {
+function Face({ info}) {
 	const { color, isAlive } = info;
-	useEffect(() => {}, [counter, matrix, onGoing, animation, n, isAlive]);
 	return (
 		<FaceContainer
 			isAlive={isAlive}
