@@ -15,6 +15,7 @@ function App() {
 	const [counter, setCounter] = useState(0);
 	const [onGoing, setOnGoing] = useState(false);
 	const [animation, setAnimation] = useState(false);
+	const [outline, setOutline] = useState(true);
 	const [n, setN] = useState(1);
 	const [matrices] = useState({
 		1: instantiateMtrx(1),
@@ -45,7 +46,12 @@ function App() {
 
 	return (
 		<AppContainer>
-			<Main animation={animation} matrix={curr} counter={counter} />
+			<Main
+				animation={animation}
+				matrix={curr}
+				outline={outline}
+				counter={counter}
+			/>
 			<Controls>
 				<RightClip>
 					<p>Generation: {`${counter}`}</p>
@@ -70,6 +76,18 @@ function App() {
 								matrices[n].randomizeState();
 							}}>
 							Reset
+						</button>
+						<button
+							onClick={() => {
+								setOutline(!outline);
+							}}>
+							Outline
+						</button>
+						<button
+							onClick={() => {
+								implementChangeState();
+							}}>
+							Next
 						</button>
 						<button onClick={() => {}}>About</button>
 					</Buttons>

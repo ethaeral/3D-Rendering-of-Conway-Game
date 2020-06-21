@@ -4,12 +4,12 @@ import { UnitContainer } from "../styles";
 import Face from "./Face";
 import { customUUID } from "../utils/Helpers";
 
-function Unit({ info }) {
+function Unit({ info , outline}) {
 	const faceNum = [0, 0, 0, 0, 0, 0];
 	return (
 		<UnitContainer>
 			{faceNum.map((face) => (
-				<Face key={`${customUUID()}`} info={info} />
+				<Face key={`${customUUID()}`} info={info} outline={outline}/>
 			))}
 		</UnitContainer>
 	);

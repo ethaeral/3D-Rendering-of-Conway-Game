@@ -1,10 +1,11 @@
 import React from "react";
 import { FaceContainer } from "../styles";
 
-function Face({ info}) {
+function Face({ info, outline}) {
 	const { color, isAlive } = info;
 	return (
 		<FaceContainer
+		outline={outline}
 			isAlive={isAlive}
 			color={color}
 			fifthCalc={Math.pow(-1, 4) * 90}

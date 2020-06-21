@@ -6,8 +6,9 @@ export const AppContainer = styled.div`
 `;
 
 export const Controls = styled.div`
-	margin-top: 40px;
-	margin-left: 60px;
+	position: absolute;
+	top: 40px;
+	left: 60px;
 	z-index: 50;
 	display: flex;
 `;
@@ -156,7 +157,8 @@ export const FaceContainer = styled.div`
 	position: absolute;
 	width: 2.5em;
 	height: 2.5em;
-	box-shadow: inset 0 0 1px;
+	box-shadow: ${(props) =>
+		props.outline || props.isAlive ? "inset 0 0 1px" : "none"};
 	background: ${(props) =>
 		props.isAlive ? `rgba(${props.color}, 0.3) ` : `rgba(255, 255, 255, 0) `};
 	&:nth-child(1) {
