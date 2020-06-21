@@ -38,6 +38,10 @@ export const Slider = styled.div`
 export const MainContainer = styled.div`
 	transform-style: preserve-3d;
 	position: absolute;
+	transform: ${(props) =>
+		props.yTrans && props.xTrans
+			? `rotateX(${props.xTrans}deg) rotateY(${props.yTrans}deg)`
+			: "none"};
 	animation: ${(props) =>
 		props.animation ? "r 120s linear infinite" : "none"};
 	top: 50vh;
@@ -181,4 +185,10 @@ export const FaceContainer = styled.div`
 		transform: ${(props) =>
 			`rotateX(${props.sixthCalc}deg) translateZ(1.25em)`};
 	}
+`;
+
+export const DragContainer = styled.div`
+	margin: 0 auto;
+	width: 95vw;
+	height: 99vh;
 `;

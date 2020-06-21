@@ -4,6 +4,7 @@ import "./App.css";
 
 import { AppContainer, Controls, RightClip, Buttons, Slider } from "./styles";
 import { IIIDMatrix } from "./utils/3DMatrixStructure";
+import DragWrapper from "./components/DragWrapper";
 
 function App() {
 	const instantiateMtrx = (x) => {
@@ -46,11 +47,12 @@ function App() {
 
 	return (
 		<AppContainer>
-			<Main
-				animation={animation}
-				matrix={curr}
-				outline={outline}
-				counter={counter}
+			<DragWrapper 
+			component={Main}
+			animation={animation}
+			matrix={curr}
+			outline={outline}
+			counter={counter}
 			/>
 			<Controls>
 				<RightClip>
