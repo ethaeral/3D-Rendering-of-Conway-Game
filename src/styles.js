@@ -30,7 +30,7 @@ export const Buttons = styled.div`
 		background: #2196f3;
 		color: white;
 		font-weight: 700;
-		border: 1px white solid;
+		border: none;
 		border-radius: 10px;
 	}
 `;

@@ -39,6 +39,13 @@ function App() {
 		matrices[n].applyRuleToState();
 	}, [counter, matrices, n]);
 
+	const adjustCubeCount = (e) => {
+		const newN = parseInt(e.target.value);
+		setN(newN);
+		setCurr(matrices[newN].matrix);
+		setCounter(0);
+	};
+
 	useEffect(() => {
 		if (onGoing === true) {
 			setTimeout(implementChangeState, 1000);
@@ -61,7 +68,12 @@ function App() {
 					<Buttons>
 						<Switch title='Animate' cb={setAnimation} state={animation} />
 						<Switch title='Automate' cb={setOnGoing} state={onGoing} />
-						<Switch title='Outline' cb={setOutline} state={outline} checked={true}/>
+						<Switch
+							title='Outline'
+							cb={setOutline}
+							state={outline}
+							checked={true}
+						/>
 						<button
 							onClick={() => {
 								setCounter(0);
@@ -87,11 +99,11 @@ function App() {
 						max='10'
 						list='tickmarks'
 						defaultValue='1'
+						onDragEnd={(e) => {
+							adjustCubeCount(e);
+						}}
 						onMouseUp={(e) => {
-							const newN = parseInt(e.target.value);
-							setN(newN);
-							setCurr(matrices[newN].matrix);
-							setCounter(0);
+							adjustCubeCount(e);
 						}}
 					/>
 					<datalist id='tickmarks'>
