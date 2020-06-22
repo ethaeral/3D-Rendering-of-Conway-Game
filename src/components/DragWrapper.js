@@ -40,7 +40,7 @@ export default function DragWrapper(props) {
 			onTouchStart={(e) => {
 				getXY(e);
 			}}
-			onTouchEnd={(e) => {
+			onTouchMove={(e) => {
 				calcAngle(e);
 			}}
 			onDragStart={(e) => {

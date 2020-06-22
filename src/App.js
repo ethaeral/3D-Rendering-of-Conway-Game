@@ -99,7 +99,7 @@ function App() {
 						max='10'
 						list='tickmarks'
 						defaultValue='1'
-						onDragEnd={(e) => {
+						onTouchEnd={(e) => {
 							adjustCubeCount(e);
 						}}
 						onMouseUp={(e) => {
