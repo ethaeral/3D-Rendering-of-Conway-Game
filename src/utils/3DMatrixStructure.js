@@ -165,3 +165,11 @@ export function IIIDMatrix(n) {
 		}
 	};
 }
+
+
+/*
+x<2 dies
+x>= 4  dies
+x=== 3 comes alive 
+2 =< x < 3 no state change
+*/

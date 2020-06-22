@@ -4,8 +4,8 @@ import { DragContainer } from "../styles";
 export default function DragWrapper(props) {
 	const { animation, matrix, outline, counter } = props;
 	const [prev, setPrev] = useState({ x: null, y: null });
-	const [delta, setDelta] = useState({ x: null, y: null });
-	const [angle, setAngle] = useState(null);
+	const [trans, setTrans] = useState({ x: null, y: null });
+	const [angle, setAngle] = useState({ x: 0, y: 0 });
 	const cursorX = document.documentElement.scrollLeft
 		? document.documentElement.scrollLeft
 		: document.body.scrollLeft;
@@ -25,28 +25,23 @@ export default function DragWrapper(props) {
 				});
 			}}
 			onDragEnd={(e) => {
-				const deltaX = e.clientX + cursorX - prev.x;
-				const deltaY = e.clientY + cursorY - prev.y;
-				setDelta({
-					x: deltaX,
-					y: deltaY,
-				});
-
-				let newAngle;
-				if (deltaX < 0) {
-					newAngle = 270 - (Math.atan(deltaY / -deltaX) * 180) / Math.PI;
+				console.log(e.clientX + cursorX - prev.x, e.clientY + cursorY - prev.y);
+				const deltaX = (e.clientX + cursorX - prev.x)/2;
+				const deltaY = (e.clientY + cursorY - prev.y)/2;
+				if (Math.abs(deltaX) > Math.abs(deltaY)) {
+					setAngle({ ...angle, y: angle.x + deltaX });
 				} else {
-					newAngle = 90 + (Math.atan(deltaY / deltaX) * 180) / Math.PI;
+					setAngle({ ...angle, x: angle.y + deltaY });
 				}
-				setAngle(newAngle);
+				console.log(angle);
 			}}>
 			<props.component
 				animation={animation}
 				matrix={matrix}
 				outline={outline}
 				counter={counter}
-				xTrans={angle}
-				yTrans={angle}
+				xTrans={angle.x}
+				yTrans={angle.y}
 			/>
 		</DragContainer>
 	);
