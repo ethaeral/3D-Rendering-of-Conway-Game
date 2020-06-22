@@ -25,6 +25,14 @@ export const Buttons = styled.div`
 	margin-top: 5px;
 	display: flex;
 	flex-direction: column;
+	button {
+		margin-bottom: 5px;
+		background: #2196f3;
+		color: white;
+		font-weight: 700;
+		border: 1px white solid;
+		border-radius: 10px;
+	}
 `;
 
 export const Slider = styled.div`
@@ -197,6 +205,7 @@ export const SwitchContainer = styled.div`
 	display: flex;
 	align-items: center;
 	cursor: pointer;
+	margin-bottom: 5px;
 	span {
 		border-radius: 10px;
 		background: ${(props) => (props.checked ? "#2196F3" : "gray")};
