@@ -3,6 +3,12 @@ import styled from "styled-components";
 export const AppContainer = styled.div`
 	margin: 0 auto;
 	display: flex;
+	p {
+		font-size: 0.5em;
+		margin: 0;
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+			Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+	}
 `;
 
 export const Controls = styled.div`
@@ -13,15 +19,10 @@ export const Controls = styled.div`
 	display: flex;
 `;
 
-export const RightClip = styled.div`
-	p {
-		font-size: 0.5em;
-		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-			Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-	}
-`;
+export const RightClip = styled.div``;
 
 export const Buttons = styled.div`
+	margin-top: 5px;
 	display: flex;
 	flex-direction: column;
 `;
@@ -42,8 +43,7 @@ export const MainContainer = styled.div`
 		props.yTrans && props.xTrans
 			? `rotateX(${props.xTrans}deg) rotateY(${props.yTrans}deg)`
 			: "none"};
-	animation: ${(props) =>
-		props.animation ? "r 120s linear infinite" : "none"};
+	animation: ${(props) => (props.animation ? "r 60s linear infinite" : "none")};
 	top: 50vh;
 	left: 50vw;
 	@keyframes r {
@@ -191,4 +191,32 @@ export const DragContainer = styled.div`
 	margin: 0 auto;
 	width: 95vw;
 	height: 99vh;
+`;
+
+export const SwitchContainer = styled.div`
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	span {
+		border-radius: 10px;
+		background: ${(props) => (props.checked ? "#2196F3" : "gray")};
+		width: 30px;
+		height: 15px;
+		border: 1px gray solid;
+		display: flex;
+		align-items: center;
+		justify-content: ${(props) => (props.checked ? "flex-end" : "flex-start")};
+		margin-right: 10px;
+		.slider {
+			margin-left: 3px;
+			margin-right: 3px;
+			background: white;
+			width: 14px;
+			height: 14px;
+			border-radius: 100%;
+		}
+	}
+	p {
+		font-size: 0.4em;
+	}
 `;

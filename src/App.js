@@ -5,6 +5,7 @@ import "./App.css";
 import { AppContainer, Controls, RightClip, Buttons, Slider } from "./styles";
 import { IIIDMatrix } from "./utils/3DMatrixStructure";
 import DragWrapper from "./components/DragWrapper";
+import Switch from "./components/Switch";
 
 function App() {
 	const instantiateMtrx = (x) => {
@@ -47,43 +48,26 @@ function App() {
 
 	return (
 		<AppContainer>
-			<DragWrapper 
-			component={Main}
-			animation={animation}
-			matrix={curr}
-			outline={outline}
-			counter={counter}
+			<DragWrapper
+				component={Main}
+				animation={animation}
+				matrix={curr}
+				outline={outline}
+				counter={counter}
 			/>
 			<Controls>
 				<RightClip>
 					<p>Generation: {`${counter}`}</p>
 					<Buttons>
-						<button
-							onClick={() => {
-								animation[n] === true
-									? setAnimation(false)
-									: setAnimation(true);
-							}}>
-							{animation[n] === true ? "Interactive" : "Animation"}
-						</button>
-						<button
-							onClick={() => {
-								onGoing[n] === true ? setOnGoing(false) : setOnGoing(true);
-							}}>
-							{onGoing[n] === true ? "Pause" : "Start"}
-						</button>
+						<Switch title='Animate' cb={setAnimation} state={animation} />
+						<Switch title='Automate' cb={setOnGoing} state={onGoing} />
+						<Switch title='Outline' cb={setOutline} state={outline} checked={true}/>
 						<button
 							onClick={() => {
 								setCounter(0);
 								matrices[n].randomizeState();
 							}}>
 							Reset
-						</button>
-						<button
-							onClick={() => {
-								setOutline(!outline);
-							}}>
-							Outline
 						</button>
 						<button
 							onClick={() => {
@@ -96,6 +80,7 @@ function App() {
 				</RightClip>
 				<Slider>
 					<input
+						orient='vertical'
 						className='slider'
 						type='range'
 						min='1'
