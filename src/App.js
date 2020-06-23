@@ -6,7 +6,6 @@ import { AppContainer, Controls, RightClip, Buttons, Slider } from "./styles";
 import { IIIDMatrix } from "./utils/3DMatrixStructure";
 import DragWrapper from "./components/DragWrapper";
 import Switch from "./components/Switch";
-import Modal from "./components/Modal";
 
 function App() {
 	const instantiateMtrx = (x) => {
@@ -19,7 +18,6 @@ function App() {
 	const [onGoing, setOnGoing] = useState(false);
 	const [animation, setAnimation] = useState(false);
 	const [outline, setOutline] = useState(true);
-	const [modal, setModal] = useState(false);
 	const [n, setN] = useState(1);
 	const [matrices] = useState({
 		1: instantiateMtrx(1),
@@ -52,9 +50,8 @@ function App() {
 		if (onGoing === true) {
 			setTimeout(implementChangeState, 1000);
 		}
-		console.log("hey");
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [onGoing, counter, implementChangeState, modal]);
+	}, [onGoing, counter, implementChangeState]);
 
 	return (
 		<AppContainer>
@@ -90,12 +87,6 @@ function App() {
 							}}>
 							Next
 						</button>
-						<button
-							onClick={() => {
-								setModal(true);
-							}}>
-							About
-						</button>
 					</Buttons>
 				</RightClip>
 				<Slider>
@@ -128,7 +119,6 @@ function App() {
 					</datalist>
 				</Slider>
 			</Controls>
-			<Modal setState={setModal} state={modal} />
 		</AppContainer>
 	);
 }
