@@ -229,3 +229,55 @@ export const SwitchContainer = styled.div`
 		font-size: 0.4em;
 	}
 `;
+
+export const ModalContainer = styled.div`
+	position: absolute;
+	top: 0;
+	z-index: 51;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.1);
+	display: ${(props) => (props.display ? "flex" : "none")};
+	justify-content: center;
+	align-items: center;
+`;
+
+export const ModalWindow = styled.div`
+	width: 50vw;
+	height: 50vh;
+	background: rgba(255, 255, 255, 0.5);
+	border-radius: 20px;
+	padding: 15px;
+`;
+
+export const TopBar = styled.div``;
+
+export const Exit = styled.div`
+	cursor: pointer;
+	background: #2196f3;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	border-radius: 100%;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+		Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+	p {
+		color: #ffffff;
+		font-weight: 700;
+	}
+`;
+
+export const Message = styled.div`
+	margin-top: 15px;
+	padding: 5px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	a {
+		margin: 0 auto;
+	}
+	p {
+		font-size: 0.7em;
+	}
+`;

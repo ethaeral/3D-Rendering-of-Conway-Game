@@ -58,9 +58,16 @@ export function IIIDMatrix(n) {
 		}
 	};
 
+	/*
+x<2 dies
+x>= 4  dies
+x=== 3 comes alive 
+2 =< x < 3 no state change
+*/
 	this.applyRuleToState = function () {
 		let reanimate = [];
 		let expire = [];
+
 		for (let node of Object.keys(this.nodes)) {
 			const neighborsAliveNum = this.nodes[node].livingNeighbors;
 			if (neighborsAliveNum < 2 || neighborsAliveNum >= 4) {
@@ -73,15 +80,19 @@ export function IIIDMatrix(n) {
 			const gpIdx = parseInt(node.charAt(0));
 			const pIdx = parseInt(node.charAt(1));
 			const cIdx = parseInt(node.charAt(2));
-			this.matrix[gpIdx][pIdx][cIdx].isAlive = true;
-			this.setAliveNeighborCount(node, true);
+			if (this.matrix[gpIdx][pIdx][cIdx].isAlive === false) {
+				this.matrix[gpIdx][pIdx][cIdx].isAlive = true;
+				this.setAliveNeighborCount(node, true);
+			}
 		}
 		for (let node of expire) {
 			const gpIdx = parseInt(node.charAt(0));
 			const pIdx = parseInt(node.charAt(1));
 			const cIdx = parseInt(node.charAt(2));
-			this.matrix[gpIdx][pIdx][cIdx].isAlive = false;
-			this.setAliveNeighborCount(node, false);
+			if (this.matrix[gpIdx][pIdx][cIdx].isAlive === true) {
+				this.matrix[gpIdx][pIdx][cIdx].isAlive = false;
+				this.setAliveNeighborCount(node, false);
+			}
 		}
 	};
 
@@ -165,11 +176,3 @@ export function IIIDMatrix(n) {
 		}
 	};
 }
-
-
-/*
-x<2 dies
-x>= 4  dies
-x=== 3 comes alive 
-2 =< x < 3 no state change
-*/
