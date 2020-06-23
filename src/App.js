@@ -14,11 +14,9 @@ function App() {
 		m.matrixGenCxn();
 		return m;
 	};
-	const [counter, setCounter] = useState(0);
-	const [onGoing, setOnGoing] = useState(false);
-	const [animation, setAnimation] = useState(false);
-	const [outline, setOutline] = useState(true);
-	const [n, setN] = useState(1);
+
+	// Intialize a "cached" state of matrices to prevent adding 
+	// expensive calculations during state change
 	const [matrices] = useState({
 		1: instantiateMtrx(1),
 		2: instantiateMtrx(2),
@@ -31,7 +29,16 @@ function App() {
 		9: instantiateMtrx(9),
 		10: instantiateMtrx(10),
 	});
+
+	// current display state that will be rendered
 	const [curr, setCurr] = useState(matrices[1].matrix);
+	const [counter, setCounter] = useState(0);
+	// automate game of life steps state
+	const [onGoing, setOnGoing] = useState(false);
+	const [animation, setAnimation] = useState(false);
+	const [outline, setOutline] = useState(true);
+	// set amount of cubes rendered, where n**3 = cube amount
+	const [n, setN] = useState(1);
 
 	const implementChangeState = useCallback(() => {
 		let num = counter + 1;
@@ -50,7 +57,6 @@ function App() {
 		if (onGoing === true) {
 			setTimeout(implementChangeState, 1000);
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [onGoing, counter, implementChangeState]);
 
 	return (

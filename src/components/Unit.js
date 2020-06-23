@@ -5,6 +5,7 @@ import Face from "./Face";
 import { customUUID } from "../utils/Helpers";
 
 function Unit({ info , outline}) {
+	// creates 6 faces for a cube
 	const faceNum = [0, 0, 0, 0, 0, 0];
 	return (
 		<UnitContainer>

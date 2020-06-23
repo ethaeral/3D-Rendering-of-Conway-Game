@@ -6,15 +6,12 @@ export function randomRGBColorGen() {
 	let color = [];
 	for (let i = 0; i < 3; i++) {
 		const num = randomNumber(225);
-		if (i === 3) {
-			color.push(num);
-		} else {
-			color.push(num);
-		}
+		color.push(num);
 	}
 	return `${color[0]}, ${color[1]}, ${color[2]}`;
 }
 
+// creates a 32 length string with random nums and characters
 export function customUUID() {
 	let newID = ``;
 	for (let i = 0; i < 33; i++) {
@@ -30,4 +27,11 @@ export function customUUID() {
 		}
 	}
 	return newID;
+}
+
+export function stringKeyToInt(key) {
+	const gpIdx = parseInt(key.charAt(0));
+	const pIdx = parseInt(key.charAt(1));
+	const cIdx = parseInt(key.charAt(2));
+	return { gpIdx, pIdx, cIdx };
 }

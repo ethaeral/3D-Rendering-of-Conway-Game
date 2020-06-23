@@ -1,11 +1,17 @@
 import { Unit } from "./UnitStructure";
 
-const { randomNumber, randomRGBColorGen } = require("./Helpers");
+const {
+	randomNumber,
+	randomRGBColorGen,
+	stringKeyToInt,
+} = require("./Helpers");
 
 export function IIIDMatrix(n) {
 	this.matrix = [];
 	this.n = n;
 	this.nodes = {};
+
+	// creates n**3 matrix
 	this.genMatrix = function () {
 		const matrix = Array(this.n).fill(null);
 		matrix.forEach((grandparent, gpIdx) => {
@@ -19,21 +25,21 @@ export function IIIDMatrix(n) {
 		this.createNodes();
 	};
 
+	// calculates all possible points  checks within the bounds of current matrix
+	// connects rooms and adjust entries of live neighbors accordingly in hashmap
 	this.matrixGenCxn = function () {
 		const diffX = [-1, 0, 1];
 		const diffY = [-1, 0, 1];
 		const diffZ = [-1, 0, 1];
 		for (let node of Object.keys(this.nodes)) {
-			const gpIdx = node.charAt(0);
-			const pIdx = node.charAt(1);
-			const cIdx = node.charAt(2);
+			const { gpIdx, pIdx, cIdx } = stringKeyToInt(node);
 			for (let dx in diffX) {
 				for (let dy in diffY) {
 					for (let dz in diffZ) {
 						try {
-							const nx = parseInt(diffX[dx]) + parseInt(cIdx);
-							const ny = parseInt(diffY[dy]) + parseInt(pIdx);
-							const nz = parseInt(diffZ[dz]) + parseInt(gpIdx);
+							const nx = parseInt(diffX[dx]) + cIdx;
+							const ny = parseInt(diffY[dy]) + pIdx;
+							const nz = parseInt(diffZ[dz]) + gpIdx;
 							if (
 								Math.min(ny, nx, nz) >= 0 &&
 								this.matrix[nz][ny][nx] &&
@@ -58,12 +64,8 @@ export function IIIDMatrix(n) {
 		}
 	};
 
-	/*
-x<2 dies
-x>= 4  dies
-x=== 3 comes alive 
-2 =< x < 3 no state change
-*/
+	// checks hashmap for and seperate states based on possible
+	// state change of alive or dead - execute state then adjust hashmap
 	this.applyRuleToState = function () {
 		let reanimate = [];
 		let expire = [];
@@ -77,18 +79,14 @@ x=== 3 comes alive
 			}
 		}
 		for (let node of reanimate) {
-			const gpIdx = parseInt(node.charAt(0));
-			const pIdx = parseInt(node.charAt(1));
-			const cIdx = parseInt(node.charAt(2));
+			const { gpIdx, pIdx, cIdx } = stringKeyToInt(node);
 			if (this.matrix[gpIdx][pIdx][cIdx].isAlive === false) {
 				this.matrix[gpIdx][pIdx][cIdx].isAlive = true;
 				this.setAliveNeighborCount(node, true);
 			}
 		}
 		for (let node of expire) {
-			const gpIdx = parseInt(node.charAt(0));
-			const pIdx = parseInt(node.charAt(1));
-			const cIdx = parseInt(node.charAt(2));
+			const { gpIdx, pIdx, cIdx } = stringKeyToInt(node);
 			if (this.matrix[gpIdx][pIdx][cIdx].isAlive === true) {
 				this.matrix[gpIdx][pIdx][cIdx].isAlive = false;
 				this.setAliveNeighborCount(node, false);
@@ -96,6 +94,8 @@ x=== 3 comes alive
 		}
 	};
 
+	// iterate over matrix to replace null value with a new Unit
+	// determines whethere unit is alive and what color it holds
 	this.createNodes = function () {
 		const roomsAmount = this.n ** 3;
 		const matrixRoomAmount = this.n ** 2;
@@ -131,6 +131,8 @@ x=== 3 comes alive
 		}
 	};
 
+	// creates a new state for the matrix
+	// adjust matrix and hashmap to reflect changes
 	this.randomizeState = function () {
 		this.clearLivingState();
 		const roomsAmount = this.n ** 3;
@@ -158,12 +160,16 @@ x=== 3 comes alive
 		}
 	};
 
+	// set all entries in hashmap and matrix to reflect all units are dead
 	this.clearLivingState = function () {
 		for (let node of Object.keys(this.nodes)) {
+			const { gpIdx, pIdx, cIdx } = stringKeyToInt(node);
 			this.nodes[node].livingNeighbors = 0;
+			this.matrix[gpIdx][pIdx][cIdx].isAlive = false;
 		}
 	};
 
+	// adjust hashmap to reflect if a unit dies to adjust its neighbors as well
 	this.setAliveNeighborCount = function (node, inc) {
 		for (let neighbor of this.nodes[node].neighbors) {
 			if (inc === true) {

@@ -8,6 +8,7 @@ function Face({ info, outline}) {
 		outline={outline}
 			isAlive={isAlive}
 			color={color}
+			// calculate transformation for 5th and 6th face of cube
 			fifthCalc={Math.pow(-1, 4) * 90}
 			sixthCalc={Math.pow(-1, 5) * 90}
 		/>
