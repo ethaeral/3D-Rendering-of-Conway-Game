@@ -3,6 +3,8 @@
 ## Demo
 https://rainbowoflife.vercel.app/
 
+![ScreenShot of rainbowoflife](./rainbowoflife.png)
+
 ## Features
 Enable rotate animation<br/>
 Automate game of life rules<br/>
