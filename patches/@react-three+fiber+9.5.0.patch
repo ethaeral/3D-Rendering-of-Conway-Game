@@ -1,0 +1,36 @@
+diff --git a/node_modules/@react-three/fiber/dist/events-5a94e5eb.esm.js b/node_modules/@react-three/fiber/dist/events-5a94e5eb.esm.js
+index e907a7f..94b2183 100644
+--- a/node_modules/@react-three/fiber/dist/events-5a94e5eb.esm.js
++++ b/node_modules/@react-three/fiber/dist/events-5a94e5eb.esm.js
+@@ -969,7 +969,22 @@ const createStore = (invalidate, advance) => {
+       linear: false,
+       flat: false,
+       controls: null,
+-      clock: new THREE.Clock(),
++      clock: (() => {
++        const timer = new THREE.Timer();
++        const c = {
++          _elapsed: undefined,
++          _old: undefined,
++          update(ts) { timer.update(ts); },
++          getDelta() { return timer.getDelta(); },
++          get elapsedTime() { return c._elapsed !== undefined ? c._elapsed : timer.getElapsed(); },
++          set elapsedTime(v) { c._elapsed = v; if (v === 0) timer.reset(); },
++          get oldTime() { return c._old !== undefined ? c._old : 0; },
++          set oldTime(v) { c._old = v; },
++          start() { timer.reset(); c._elapsed = c._old = undefined; },
++          stop() {}
++        };
++        return c;
++      })(),
+       pointer,
+       mouse: pointer,
+       frameloop: 'always',
+@@ -15996,6 +16011,7 @@ let subscribers;
+ let subscription;
+ function update(timestamp, state, frame) {
+   // Run local effects
++  if (typeof timestamp === 'number') state.clock.update(timestamp);
+   let delta = state.clock.getDelta();
+ 
+   // In frameloop='never' mode, clock times are updated using the provided timestamp
