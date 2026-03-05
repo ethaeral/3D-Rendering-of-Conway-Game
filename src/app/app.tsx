@@ -1,151 +1,82 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
-import { MainMemo } from "../features/conway/components/main";
-import { GridWebGL } from "../features/conway/components/grid-webgl";
+import React, { useState } from "react";
+import { MainMemo } from "../features/grid/components/main";
+import { GridWebGL } from "../features/grid/components/grid-webgl";
 import { AppContainer, Controls, RightClip, Buttons, Slider } from "./app-styles";
-import { IIIDMatrix } from "../features/conway/utils/3d-matrix-structure";
-import { DragWrapper } from "../features/conway/components/drag-wrapper";
-import {
-  computeNextStateInWorker,
-  applyWorkerResult,
-} from "../features/conway/worker/conway-worker-api";
-import { Switch } from "../components";
+import { DragWrapper } from "../features/grid/components/drag-wrapper";
+import { useConwaySimulation } from "../features/conway/hooks/use-conway-simulation";
+import { Switch } from "../components/switch";
 import { Button } from "../components/ui/button";
 import { Slider as ShadcnSlider } from "../components/ui/slider";
-import type { Matrix3D } from "../features/conway/types";
 import { CONWAY_GRID_MAX } from "../config/conway";
-import { logGridUpdate } from "../utils/debug";
 
 type ViewMode = "dom" | "webgl";
 
-function instantiateMtrx(x: number): IIIDMatrix {
-  const m = new IIIDMatrix(x);
-  m.genMatrix();
-  m.matrixGenCxn();
-  return m;
-}
-
-const matrices: Record<number, IIIDMatrix> = {};
-for (let i = 1; i <= CONWAY_GRID_MAX; i++) {
-  matrices[i] = instantiateMtrx(i);
-}
-
-let stepInProgress = false;
-
-export function App() {
-  const [curr, setCurr] = useState<Matrix3D>(matrices[1].matrix);
-  const [counter, setCounter] = useState(0);
-  const [onGoing, setOnGoing] = useState(false);
-  const [animation, setAnimation] = useState(false);
-  const [outline, setOutline] = useState(true);
-  const [n, setN] = useState(1);
-  const [viewMode, setViewMode] = useState<ViewMode>("dom");
-  const automateTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const implementChangeState = useCallback(async () => {
-    const already = stepInProgress;
-    stepInProgress = true;
-    if (already) {
-      logGridUpdate("implementChangeState: skipped (step already in progress)");
-      return;
-    }
-    const matrixInstance = matrices[n];
-    logGridUpdate("implementChangeState: start", { n, gridSize: n ** 3 });
-    try {
-      const result = await computeNextStateInWorker(matrixInstance.matrix, n);
-      logGridUpdate("implementChangeState: worker OK", {
-        resultLength: result.length,
-        aliveCount: result.filter((c) => c.isAlive).length,
-      });
-      applyWorkerResult(matrixInstance, n, result);
-      logGridUpdate("implementChangeState: setCounter (increment queued)");
-      setCounter((num) => num + 1);
-    } catch (err) {
-      logGridUpdate("implementChangeState: worker failed, using sync", {
-        error: err instanceof Error ? err.message : String(err),
-      });
-      matrixInstance.applyRuleToState();
-      setCounter((num) => num + 1);
-    } finally {
-      stepInProgress = false;
-    }
-  }, [n]);
-
-  const adjustCubeCount = useCallback((value: number[]) => {
-    const newN = value[0] ?? 1;
-    setN(newN);
-    setCurr(matrices[newN].matrix);
-    setCounter(0);
-  }, []);
-
-  useEffect(() => {
-    if (!onGoing) return;
-    let cancelled = false;
-    function scheduleNext() {
-      automateTimeoutRef.current = setTimeout(async () => {
-        if (cancelled) return;
-        await implementChangeState();
-        if (cancelled) return;
-        scheduleNext();
-      }, 1000);
-    }
-    scheduleNext();
-    return () => {
-      cancelled = true;
-      if (automateTimeoutRef.current) {
-        clearTimeout(automateTimeoutRef.current);
-        automateTimeoutRef.current = null;
-      }
-    };
-  }, [onGoing, implementChangeState]);
+export function App({ viewMode: viewModeProp }: { viewMode?: ViewMode } = {}) {
+  const simulation = useConwaySimulation();
+  const [viewModeState, setViewModeState] = useState<ViewMode>("dom");
+  const viewMode = viewModeProp ?? viewModeState;
+  const showRendererToggle = viewModeProp == null;
 
   return (
     <AppContainer>
       {viewMode === "dom" ? (
         <DragWrapper
           component={MainMemo}
-          animation={animation}
-          matrix={curr}
-          outline={outline}
-          counter={counter}
+          animation={simulation.animation}
+          matrix={simulation.curr}
+          outline={simulation.outline}
+          counter={simulation.counter}
         />
       ) : (
         <div style={{ width: "95vw", height: "99vh" }}>
           <GridWebGL
-            matrix={curr}
-            outline={outline}
-            animation={animation}
-            generation={counter}
+            matrix={simulation.curr}
+            outline={simulation.outline}
+            animation={simulation.animation}
+            generation={simulation.counter}
           />
         </div>
       )}
       <Controls className="gap-2">
         <RightClip>
-          <p className="text-xs font-medium mb-4 pb-4">Generation: {counter}</p>
+          <p className="text-xs font-medium mb-4 pb-4">
+            Generation: {simulation.counter}
+          </p>
           <Buttons>
             <div className="flex flex-col gap-6 mb-2">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-medium">Renderer:</span>
-                <Button
-                  variant={viewMode === "dom" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setViewMode("dom")}
-                >
-                  DOM
-                </Button>
-                <Button
-                  variant={viewMode === "webgl" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setViewMode("webgl")}
-                >
-                  WebGL
-                </Button>
-              </div>
-              <Switch title="Animate" cb={setAnimation} state={animation} />
-              <Switch title="Automate" cb={setOnGoing} state={onGoing} />
+              {showRendererToggle && (
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-medium">Renderer:</span>
+                  <Button
+                    variant={viewMode === "dom" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setViewModeState("dom")}
+                  >
+                    DOM
+                  </Button>
+                  <Button
+                    variant={viewMode === "webgl" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setViewModeState("webgl")}
+                  >
+                    WebGL
+                  </Button>
+                </div>
+              )}
+              <Switch
+                title="Animate"
+                cb={simulation.setAnimation}
+                state={simulation.animation}
+              />
+              <Switch
+                title="Automate"
+                cb={simulation.setOnGoing}
+                state={simulation.onGoing}
+              />
               <Switch
                 title="Outline"
-                cb={setOutline}
-                state={outline}
+                cb={simulation.setOutline}
+                state={simulation.outline}
                 checked={true}
               />
             </div>
@@ -153,17 +84,14 @@ export function App() {
               <Button
                 variant="default"
                 size="sm"
-                onClick={() => {
-                  setCounter(0);
-                  matrices[n].randomizeState();
-                }}
+                onClick={simulation.onReset}
               >
                 Reset
               </Button>
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={() => implementChangeState()}
+                onClick={() => simulation.implementChangeState()}
               >
                 Next
               </Button>
@@ -176,8 +104,8 @@ export function App() {
             min={1}
             max={CONWAY_GRID_MAX}
             step={1}
-            value={[n]}
-            onValueChange={adjustCubeCount}
+            value={[simulation.n]}
+            onValueChange={simulation.adjustCubeCount}
             className="h-32 pt-5 ml-8"
           />
         </Slider>

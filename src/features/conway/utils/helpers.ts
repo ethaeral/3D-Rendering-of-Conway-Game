@@ -7,7 +7,7 @@ export function randomNumber(range: number): number {
 export function randomRGBColorGen(): string {
   const color: number[] = [];
   for (let i = 0; i < 3; i++) {
-    const num = randomNumber(225);
+    const num = randomNumber(256);
     color.push(num);
   }
   return `${color[0]}, ${color[1]}, ${color[2]}`;

@@ -12,22 +12,27 @@ export const AppContainer = styled.div`
 `;
 
 export const Controls = styled.div`
-  position: absolute;
-  top: 40px;
-  left: 60px;
-  z-index: 50;
   display: flex;
+  align-items: flex-start;
+  gap: 1rem;
 `;
 
-export const RightClip = styled.div``;
-
-export const Buttons = styled.div`
-  margin-top: 5px;
+export const RightClip = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+`;
+
+export const Buttons = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `;
 
 export const Slider = styled.div`
-  padding-top: 20px;
-  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
 `;

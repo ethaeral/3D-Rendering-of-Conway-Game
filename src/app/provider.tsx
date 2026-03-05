@@ -1,5 +1,5 @@
 import React from "react";
-import { App } from "./app";
+import { AppRoutes } from "./routes";
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
@@ -8,7 +8,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 export function AppWithProvider() {
   return (
     <AppProvider>
-      <App />
+      <AppRoutes />
     </AppProvider>
   );
 }
