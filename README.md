@@ -10,6 +10,12 @@ https://microsimulations.vercel.app/v1
 2020:   
 ![ScreenShot of rainbowoflife](./rainbowoflife.png)
 
+2026: 
+<img width="839" height="708" alt="image" src="https://github.com/user-attachments/assets/9d012427-0f53-4bda-b43d-0781a1e4b2ea" />
+<img width="841" height="705" alt="image" src="https://github.com/user-attachments/assets/06641fcb-419c-4fc3-aa78-368c00ee7838" />
+<img width="833" height="707" alt="image" src="https://github.com/user-attachments/assets/73cfd79a-3362-410b-a925-81f2224491f3" />
+
+
 
 ---
 
