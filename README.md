@@ -4,9 +4,12 @@ A React app that explores **Conway’s Game of Life** and related cellular autom
 
 ## Demo
 
-https://rainbowoflife.vercel.app/
+https://microsimulations.vercel.app/v1
 
+
+2020:   
 ![ScreenShot of rainbowoflife](./rainbowoflife.png)
+
 
 ---
 
