@@ -7,13 +7,15 @@ A React app that explores **Conway’s Game of Life** and related cellular autom
 https://microsimulations.vercel.app/v1
 
 
-2020:   
-![ScreenShot of rainbowoflife](./rainbowoflife.png)
+**2020**
 
-2026: 
-<img width="839" height="708" alt="image" src="https://github.com/user-attachments/assets/9d012427-0f53-4bda-b43d-0781a1e4b2ea" />
-<img width="841" height="705" alt="image" src="https://github.com/user-attachments/assets/06641fcb-419c-4fc3-aa78-368c00ee7838" />
-<img width="833" height="707" alt="image" src="https://github.com/user-attachments/assets/73cfd79a-3362-410b-a925-81f2224491f3" />
+<img src="./rainbowoflife.png" alt="V1 DOM" width="200" />
+
+**2026**
+
+| V2 WebGL | V3 Map | V4 Parcels only |
+|----------|--------|-----------------|
+| <img src="https://github.com/user-attachments/assets/9d012427-0f53-4bda-b43d-0781a1e4b2ea" alt="V2" width="280" /> | <img src="https://github.com/user-attachments/assets/06641fcb-419c-4fc3-aa78-368c00ee7838" alt="V3" width="280" /> | <img src="https://github.com/user-attachments/assets/73cfd79a-3362-410b-a925-81f2224491f3" alt="V4" width="280" /> |
 
 
 
