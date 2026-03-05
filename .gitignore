@@ -24,3 +24,5 @@ yarn-debug.log*
 yarn-error.log*
 
 dist
+
+./features/boston-map/api/data
