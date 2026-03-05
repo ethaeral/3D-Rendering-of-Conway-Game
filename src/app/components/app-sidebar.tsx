@@ -23,11 +23,13 @@ const VERSIONS = [
   { path: "/v1", label: "V1 · 2020: DOM" },
   { path: "/v2", label: "V2 · 2026: WebGL" },
   { path: "/v3", label: "V3 · 2026: ArcGIS" },
+  { path: "/v4", label: "V4 · Map (parcels only)" },
 ] as const;
 
 type VersionPath = (typeof VERSIONS)[number]["path"];
 
 function getCurrentVersionPath(pathname: string): VersionPath {
+  if (pathname.startsWith("/v4")) return "/v4";
   if (pathname.startsWith("/v3")) return "/v3";
   if (pathname.startsWith("/v2")) return "/v2";
   return "/v1";
@@ -45,7 +47,7 @@ function VersionSelect() {
   const currentPath = getCurrentVersionPath(pathname);
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Version</SidebarGroupLabel>
+      <SidebarGroupLabel className="mb-0">Version</SidebarGroupLabel>
       <select
         value={currentPath}
         onChange={(e) => navigate(e.target.value as VersionPath)}
@@ -126,7 +128,7 @@ function StrategySelect({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Compute strategy</SidebarGroupLabel>
+      <SidebarGroupLabel className="mb-0">Algorithms</SidebarGroupLabel>
       <select
         value={strategy}
         onChange={(e) => setStrategy(e.target.value as ComputeStrategy)}
@@ -147,7 +149,7 @@ function GenerationDisplay({ counter }: { counter: number }) {
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Generation</SidebarGroupLabel>
-      <p className="text-base font-semibold tabular-nums leading-none">{counter}</p>
+      <p className="text-base font-semibold tabular-nums leading-none text-center">{counter}</p>
     </SidebarGroup>
   );
 }
@@ -228,7 +230,7 @@ function MapRuleSelect({
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Rule</SidebarGroupLabel>
+      <SidebarGroupLabel className="mb-0">Algorithms</SidebarGroupLabel>
       <select
         value={rulePreset}
         onChange={(e) => setRulePreset(e.target.value as MapRulePresetId)}
@@ -302,23 +304,20 @@ export function AppSidebar({ ctx, onAdjustCubeCount }: AppSidebarProps) {
   const { pathname } = useLocation();
   const versionPath = getCurrentVersionPath(pathname);
   const isV3 = versionPath === "/v3";
+  const isV4 = versionPath === "/v4";
 
   return (
     <Sidebar>
       <SidebarHeader>
         <span className="text-xs font-semibold tracking-tight text-[hsl(var(--sidebar-foreground))]">
-          Conway
+          Microsimulations
         </span>
       </SidebarHeader>
-      <SidebarContent className="flex flex-col gap-1 px-2">
+      <SidebarContent className="flex flex-col">
         <VersionSelect />
         {isV3 && ctx.mapSim ? (
           <>
             <GenerationDisplay counter={ctx.mapSim.counter} />
-            <MapRuleSelect
-              rulePreset={ctx.mapSim.rulePreset}
-              setRulePreset={ctx.mapSim.setRulePreset}
-            />
             <ActionButtons
               onGoing={ctx.mapSim.onGoing}
               onReset={ctx.mapSim.onReset}
@@ -327,13 +326,23 @@ export function AppSidebar({ ctx, onAdjustCubeCount }: AppSidebarProps) {
                 Promise.resolve(ctx.mapSim!.implementChangeState())
               }
             />
+            <MapRuleSelect
+              rulePreset={ctx.mapSim.rulePreset}
+              setRulePreset={ctx.mapSim.setRulePreset}
+            />
+            <div
+              className="my-2 border-t border-[hsl(var(--sidebar-border))]"
+              aria-hidden
+            />
           </>
-        ) : !isV3 ? (
+        ) : !isV3 && !isV4 ? (
           <>
             <GenerationDisplay counter={ctx.counter} />
-            <DimensionsToggle
-              dimensions={ctx.dimensions}
-              setDimensions={ctx.setDimensions}
+            <ActionButtons
+              onGoing={ctx.onGoing}
+              onReset={ctx.onReset}
+              setOnGoing={ctx.setOnGoing}
+              implementChangeState={ctx.implementChangeState}
             />
             {(versionPath === "/v1" || versionPath === "/v2") && (
               <StrategySelect
@@ -343,17 +352,22 @@ export function AppSidebar({ ctx, onAdjustCubeCount }: AppSidebarProps) {
                 disabled={versionPath === "/v1"}
               />
             )}
+            <div
+              className="my-2 border-t border-[hsl(var(--sidebar-border))]"
+              aria-hidden
+            />
+            <SidebarGroup>
+              <SidebarGroupLabel className="mb-0 pt-1">Misc</SidebarGroupLabel>
+            </SidebarGroup>
+            <DimensionsToggle
+              dimensions={ctx.dimensions}
+              setDimensions={ctx.setDimensions}
+            />
             <SimulationToggles
               animation={ctx.animation}
               outline={ctx.outline}
               setAnimation={ctx.setAnimation}
               setOutline={ctx.setOutline}
-            />
-            <ActionButtons
-              onGoing={ctx.onGoing}
-              onReset={ctx.onReset}
-              setOnGoing={ctx.setOnGoing}
-              implementChangeState={ctx.implementChangeState}
             />
             <GridSizeControl n={ctx.n} onAdjustCubeCount={onAdjustCubeCount} />
           </>

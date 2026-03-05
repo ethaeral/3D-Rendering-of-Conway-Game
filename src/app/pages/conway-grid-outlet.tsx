@@ -67,3 +67,11 @@ export function ConwayGridV3() {
     </div>
   );
 }
+
+export function ConwayGridV4() {
+  return (
+    <div className="min-h-0 min-w-0 flex-1">
+      <BostonMapView parcelsOnly />
+    </div>
+  );
+}

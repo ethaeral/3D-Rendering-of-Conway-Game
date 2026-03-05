@@ -48,7 +48,7 @@ export function ConwayLayout() {
     initialAliveFraction: 0.35,
   });
   const { pathname } = useLocation();
-  const isMapView = pathname.startsWith("/v3");
+  const isMapView = pathname.startsWith("/v3") || pathname.startsWith("/v4");
   const perfSnapshot = usePerformanceMonitor(simulation.lastStepMs);
 
   useEffect(() => {
@@ -99,6 +99,15 @@ export function ConwayLayout() {
           mapContext={
             isMapView && parcelData.ready
               ? (() => {
+                  if (pathname.startsWith("/v4")) {
+                    return {
+                      parcelCount: parcelData.cellCount,
+                      rulePreset: "conway" as const,
+                      counter: 0,
+                      timeComplexity: "—",
+                      spaceComplexity: "—",
+                    };
+                  }
                   const mapMeta = getStrategyMeta("explicit-topology");
                   return {
                     parcelCount: parcelData.cellCount,
@@ -113,7 +122,15 @@ export function ConwayLayout() {
           className="shrink-0"
         />
         <ImplementationDetailsPanel
-          version={pathname.startsWith("/v3") ? "v3" : pathname.startsWith("/v2") ? "v2" : "v1"}
+          version={
+            pathname.startsWith("/v4")
+              ? "v4"
+              : pathname.startsWith("/v3")
+                ? "v3"
+                : pathname.startsWith("/v2")
+                  ? "v2"
+                  : "v1"
+          }
           className="shrink-0"
         />
         <div className="flex min-h-0 flex-1">
@@ -121,7 +138,7 @@ export function ConwayLayout() {
             ctx={context}
             onAdjustCubeCount={simulation.adjustCubeCount}
           />
-          <main className="relative flex flex-1 min-h-0 min-w-0 flex-col overflow-hidden">
+          <main className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
             <div className="flex min-h-0 min-w-0 flex-1">
               <Outlet context={context} />
             </div>

@@ -31,10 +31,11 @@ const FEATURE_STATE_CHUNK = 5000;
  */
 
 export interface BostonMapProps {
-  getCells: () => CellState[];
+  /** When omitted, map shows parcels only (no algorithm / feature-state). */
+  getCells?: () => CellState[];
   /** When set (Conway path): use buffer + delta updates (only changed parcels). */
   getAliveBuffer?: () => Uint8Array | null;
-  counter: number;
+  counter?: number;
   parcelGeoJSON: GeoJSONFeatureCollection | null;
   mapboxAccessToken: string;
   className?: string;
@@ -144,12 +145,14 @@ export function BostonMap({
     timer: null,
   });
 
+  const parcelsOnly = getCells == null;
   useEffect(() => {
+    if (parcelsOnly) return;
     const map = mapRef.current;
     if (!map || !staticParcels || !mapReady) return;
     const run = () => {
       const m = mapRef.current;
-      if (!m) return;
+      if (!m || !getCells) return;
       throttleRef.current.last = Date.now();
       throttleRef.current.timer = null;
       const buf = getAliveBuffer?.();
@@ -172,7 +175,7 @@ export function BostonMap({
         throttleRef.current.timer = null;
       }
     };
-  }, [counter, getCells, getAliveBuffer, staticParcels, mapReady]);
+  }, [parcelsOnly, counter, getCells, getAliveBuffer, staticParcels, mapReady]);
 
   if (!mapboxAccessToken) {
     return (
@@ -229,16 +232,24 @@ export function BostonMap({
           <Layer
             id="boston-parcels-fill"
             type="fill"
-            paint={{
-              "fill-color": [
-                "case",
-                ["boolean", ["feature-state", "alive"], false],
-                "rgb(16, 185, 129)",
-                "rgba(51, 65, 85, 0.6)",
-              ],
-              "fill-opacity": 0.85,
-              "fill-outline-color": "rgba(148, 163, 184, 0.4)",
-            }}
+            paint={
+              parcelsOnly
+                ? {
+                    "fill-color": "rgba(51, 65, 85, 0.6)",
+                    "fill-opacity": 0.85,
+                    "fill-outline-color": "rgba(148, 163, 184, 0.4)",
+                  }
+                : {
+                    "fill-color": [
+                      "case",
+                      ["boolean", ["feature-state", "alive"], false],
+                      "rgb(16, 185, 129)",
+                      "rgba(51, 65, 85, 0.6)",
+                    ],
+                    "fill-opacity": 0.85,
+                    "fill-outline-color": "rgba(148, 163, 184, 0.4)",
+                  }
+            }
           />
         </Source>
       </MapboxMap>

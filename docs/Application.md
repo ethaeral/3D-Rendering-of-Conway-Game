@@ -15,3 +15,30 @@
 - Orcutt, Guy. 2007. “A New Type of Socio-Economic System.” International Journal of Microsimulation 1 (1): 3–9. https://microsimulation.pub/articles/00002.
 
 - Schelling, Thomas C. 1971. “Dynamic Models of Segregation.” The Journal of Mathematical Sociology 1 (2): 143–86. https://doi.org/10.1080/0022250x.1971.9989794.
+
+---
+
+Model residents deciding whether to attend Open Studios based on (a) expected turnout and (b) friends going, while artists decide whether to participate based on expected visitor flow. Show how the event either fails to launch or tips into a self-sustaining cultural institution.
+
+Agents
+Two-sided market:
+- Visitors (residents / art fans)
+- Artists/Studios (hosts who open their space)
+
+Key micro mechanisms
+1. Thresholds / coordination
+- Visitors attend if the event feels “worth it” → depends on expected vibe/turnout.
+- Artists open if expected visitors justify effort.
+2. Network effects
+More artists → more variety → more visitors.
+More visitors → more sales/energy → more artists willing to open next time.
+3. Local social influence
+- People are more likely to go if friends go (social proof / belonging).
+
+Result: multiple equilibria + tipping.
+
+---
+
+## v4
+
+(TBD)

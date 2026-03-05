@@ -47,7 +47,7 @@ export function SidebarHeader({ className, ...props }: React.HTMLAttributes<HTML
 
 export function SidebarContent({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn("flex flex-1 flex-col overflow-auto py-1.5", className)} {...props} />
+    <div className={cn("flex min-h-0 flex-1 flex-col justify-start overflow-auto py-1.5", className)} {...props} />
   );
 }
 

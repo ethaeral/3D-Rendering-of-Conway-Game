@@ -13,7 +13,7 @@ export interface ImplementationDetails {
   sections: DetailSection[];
 }
 
-export type AppVersion = "v1" | "v2" | "v3";
+export type AppVersion = "v1" | "v2" | "v3" | "v4";
 
 const V1_DETAILS: ImplementationDetails = {
   title: "V1 · 2020: DOM",
@@ -117,10 +117,21 @@ const V3_DETAILS: ImplementationDetails = {
   ],
 };
 
+const V4_DETAILS: ImplementationDetails = {
+  title: "V4 · Map (parcels only)",
+  sections: [
+    {
+      heading: "Context",
+      body: "V4 work in progress: Agent-Based “Tipping Point” Model for Open Studios",
+    },
+  ],
+};
+
 const DETAILS_BY_VERSION: Record<AppVersion, ImplementationDetails> = {
   v1: V1_DETAILS,
   v2: V2_DETAILS,
   v3: V3_DETAILS,
+  v4: V4_DETAILS,
 };
 
 export function getImplementationDetailsByVersion(

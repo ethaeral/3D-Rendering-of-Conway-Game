@@ -5,13 +5,30 @@ import type { BostonMapViewContext } from "../types";
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN ?? "";
 
-export function BostonMapView() {
+export function BostonMapView({ parcelsOnly = false }: { parcelsOnly?: boolean }) {
   const ctx = useOutletContext<BostonMapViewContext>();
   const sim = ctx.mapSim;
-  if (!sim) {
+  const parcelGeoJSON = ctx.parcelGeoJSON ?? null;
+
+  if (!parcelGeoJSON && !sim) {
     return (
       <div className="flex h-full w-full items-center justify-center bg-slate-950 text-slate-400">
-        <p className="text-sm">Map simulation not available.</p>
+        <p className="text-sm">Map not available.</p>
+      </div>
+    );
+  }
+
+  if (!parcelsOnly && sim) {
+    return (
+      <div className="flex h-full w-full flex-col overflow-hidden bg-slate-950">
+        <BostonMap
+          getCells={sim.getCells}
+          getAliveBuffer={sim.getAliveBuffer}
+          counter={sim.counter}
+          parcelGeoJSON={parcelGeoJSON}
+          mapboxAccessToken={MAPBOX_TOKEN}
+          className="min-h-0 flex-1"
+        />
       </div>
     );
   }
@@ -19,10 +36,7 @@ export function BostonMapView() {
   return (
     <div className="flex h-full w-full flex-col overflow-hidden bg-slate-950">
       <BostonMap
-        getCells={sim.getCells}
-        getAliveBuffer={sim.getAliveBuffer}
-        counter={sim.counter}
-        parcelGeoJSON={ctx.parcelGeoJSON ?? null}
+        parcelGeoJSON={parcelGeoJSON}
         mapboxAccessToken={MAPBOX_TOKEN}
         className="min-h-0 flex-1"
       />
